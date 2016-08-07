@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/searchItem"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search_text_menu" />
+
+    <item
+        android:id="@+id/favoriteItem"
+        android:icon="@drawable/ic_favorite"
+        android:title="@string/favorite_text_menu" />
+
+    <item
+        android:id="@+id/helpItem"
+        android:icon="@drawable/ic_help"
+        android:title="@string/help_text_menu" />
+
+</menu>
