@@ -6,4 +6,5 @@
     <string name="search_text_menu">Pesquisar</string>
     <string name="favorite_text_menu">Favoritos</string>
     <string name="help_text_menu">Ajuda</string>
+    <string name="select_btn_text">Selecionar \n Ingredientes</string>
 </resources>
