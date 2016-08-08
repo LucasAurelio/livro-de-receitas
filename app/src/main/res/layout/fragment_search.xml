@@ -24,8 +24,8 @@
             android:id="@+id/filter_list"/>
 
 
-
     </LinearLayout>
+
 
 
 </FrameLayout>
