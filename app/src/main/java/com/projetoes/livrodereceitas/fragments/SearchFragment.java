@@ -6,8 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.projetoes.livrodereceitas.CheckboxListViewAdapter;
 import com.projetoes.livrodereceitas.R;
@@ -58,13 +63,41 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        List listFilter = new ArrayList();
-        listFilter.add("Carnes");
-        listFilter.add("Massas");
-        listFilter.add("Sobremesas");
+        //Dados para teste
+        List filterList = new ArrayList();
+        filterList.add("Carnes");
+        filterList.add("Massas");
+        filterList.add("Sobremesas");
 
         ListView checkboxListView = (ListView) view.findViewById(R.id.filter_list);
-        checkboxListView.setAdapter(new CheckboxListViewAdapter(getActivity(),listFilter));
+        checkboxListView.setAdapter(new CheckboxListViewAdapter(getActivity(),filterList));
+
+
+        //dados para teste
+        List ingredientList = new ArrayList();
+        ingredientList.add("Farinha");
+        ingredientList.add("Arroz");
+        ingredientList.add("Chocolate");
+        ingredientList.add("Milho");
+        ingredientList.add("Ovo");
+        ingredientList.add("Feijão");
+        ingredientList.add("Filé");
+        ingredientList.add("Castanha");
+
+
+        //Creating the instance of ArrayAdapter containing list of language names
+        ArrayAdapter<String> adapter = new ArrayAdapter<String> (getContext(),android.R.layout.select_dialog_item,ingredientList);
+        //Getting the instance of AutoCompleteTextView
+        AutoCompleteTextView actv= (AutoCompleteTextView)view.findViewById(R.id.auto_complete_ingredient);
+        actv.setThreshold(1);//will start working from first character
+        actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+
+        actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(), "Item selecionado", Toast.LENGTH_LONG).show();
+            }
+        });
 
         return view;
 

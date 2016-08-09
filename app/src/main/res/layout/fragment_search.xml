@@ -3,29 +3,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.projetoes.livrodereceitas.fragments.SearchFragment"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:windowSoftInputMode="adjustResize|stateHidden">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
+        <!-- Quando campo de ingredientes tá em baixo na
+        hora de pesquisar o menu fica em cima -->
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Filtros:"
-            android:textSize="20dp"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"/>
+            android:layout_marginTop="5dp"
+            android:id="@+id/ingredient_layout">
 
-        <ListView
+            <TextView
+                android:id="@+id/text_ingredient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ingredientes :"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="5dp"
+                />
+
+            <AutoCompleteTextView
+                android:id="@+id/auto_complete_ingredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/text_ingredient"
+                android:ems="10"
+                android:text="">
+
+            </AutoCompleteTextView>
+
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/filter_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/filter_list"/>
+            android:orientation="vertical"
+            android:layout_below="@+id/ingredient_layout"
+            android:layout_marginTop="10dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Filtros:"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="5dp"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/filter_list"/>
 
 
-    </LinearLayout>
+        </LinearLayout>
 
 
+
+    </RelativeLayout>
 
 </FrameLayout>
