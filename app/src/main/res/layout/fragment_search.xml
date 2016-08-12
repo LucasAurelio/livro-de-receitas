@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <!-- Quando campo de ingredientes tá em baixo na
-        hora de pesquisar o menu fica em cima -->
+        hora de pesquisar o menu fica em cima do campo (deu ruim D:) -->
 
         <RelativeLayout
             android:layout_width="match_parent"

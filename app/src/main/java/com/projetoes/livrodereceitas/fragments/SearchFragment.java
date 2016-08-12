@@ -63,16 +63,7 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        //Dados para teste
-        List filterList = new ArrayList();
-        filterList.add("Carnes");
-        filterList.add("Massas");
-        filterList.add("Sobremesas");
-
-        ListView checkboxListView = (ListView) view.findViewById(R.id.filter_list);
-        checkboxListView.setAdapter(new CheckboxListViewAdapter(getActivity(),filterList));
-
-
+        // Selecionar ingredientes
         //dados para teste
         List ingredientList = new ArrayList();
         ingredientList.add("Farinha");
@@ -92,12 +83,26 @@ public class SearchFragment extends Fragment {
         actv.setThreshold(1);//will start working from first character
         actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
 
+
         actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "Item selecionado", Toast.LENGTH_LONG).show();
+                // recupera o valor do text
+                Object item = parent.getItemAtPosition(position).getClass();
+                Toast.makeText(getContext(), (CharSequence) parent.getItemAtPosition(position), Toast.LENGTH_LONG).show();
             }
         });
+
+
+        // Selecionar filtro
+        //Dados para teste
+        List filterList = new ArrayList();
+        filterList.add("Carnes");
+        filterList.add("Massas");
+        filterList.add("Sobremesas");
+
+        ListView checkboxListView = (ListView) view.findViewById(R.id.filter_list);
+        checkboxListView.setAdapter(new CheckboxListViewAdapter(getActivity(),filterList));
 
         return view;
 
