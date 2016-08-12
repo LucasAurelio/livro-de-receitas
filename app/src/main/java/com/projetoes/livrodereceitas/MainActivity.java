@@ -1,5 +1,6 @@
 package com.projetoes.livrodereceitas;
 
+import android.database.SQLException;
 import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import com.projetoes.livrodereceitas.fragments.SearchFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     private BottomBar mBottomBar;
@@ -24,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MAIN_ACTIVITY";
 
 
-
+    private static DatabaseHelper ourDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         changeFragment(initialFragment, InitialFragment.TAG ,true);
+
+        ourDB = new DatabaseHelper(this);
+        try{
+            ourDB.createDatabase();
+        }catch (IOException e){
+            throw new Error("Unable to create Database");
+        }
+        try{
+            ourDB.openDataBase();
+        }catch(SQLException sqle){
+            throw sqle;
+        }
 
     }
 
