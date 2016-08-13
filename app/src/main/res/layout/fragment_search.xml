@@ -24,10 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ingredientes :"
-                android:textSize="20dp"
-                android:textColor="@android:color/black"
-                android:layout_marginBottom="5dp"
-                />
+                style="@style/text" />
 
             <AutoCompleteTextView
                 android:id="@+id/auto_complete_ingredient"
@@ -35,14 +32,19 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/text_ingredient"
-                android:ems="10"
-                android:text="">
+                android:ems="8"
+                android:text=""/>
 
-            </AutoCompleteTextView>
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/add"
+                android:text="Adicionar"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
-
 
         <LinearLayout
             android:id="@+id/filter_layout"
@@ -50,25 +52,40 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_below="@+id/ingredient_layout"
-            android:layout_marginTop="10dp"
-            >
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Filtros:"
-                android:textSize="20dp"
-                android:textColor="@android:color/black"
-                android:layout_marginBottom="5dp"/>
+                style="@style/text" />
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/filter_list"/>
 
-
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/filter_layout"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ingredientes selecionados:"
+                style="@style/text"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/selected_ingredients_list"
+                />
+
+        </LinearLayout>
 
 
     </RelativeLayout>

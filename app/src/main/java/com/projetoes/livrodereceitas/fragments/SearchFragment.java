@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -16,9 +17,11 @@ import android.widget.Toast;
 
 import com.projetoes.livrodereceitas.CheckboxListViewAdapter;
 import com.projetoes.livrodereceitas.R;
+import com.roughike.bottombar.BottomBar;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -63,6 +66,14 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
+        final HashSet ingredientsArrayList = new HashSet();
+
+        final Button addBtn = (Button) view.findViewById(R.id.add);
+        addBtn.setEnabled(false);
+
+        final ListView selectedListView = (ListView) view.findViewById(R.id.selected_ingredients_list);
+
+
         // Selecionar ingredientes
         //dados para teste
         List ingredientList = new ArrayList();
@@ -75,7 +86,7 @@ public class SearchFragment extends Fragment {
         ingredientList.add("Filé");
         ingredientList.add("Castanha");
 
-
+        final Object[] itemSelected = new Object[1];
         //Creating the instance of ArrayAdapter containing list of language names
         ArrayAdapter<String> adapter = new ArrayAdapter<String> (getContext(),android.R.layout.select_dialog_item,ingredientList);
         //Getting the instance of AutoCompleteTextView
@@ -83,16 +94,28 @@ public class SearchFragment extends Fragment {
         actv.setThreshold(1);//will start working from first character
         actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
 
-
         actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // recupera o valor do text
-                Object item = parent.getItemAtPosition(position).getClass();
-                Toast.makeText(getContext(), (CharSequence) parent.getItemAtPosition(position), Toast.LENGTH_LONG).show();
+                itemSelected[0] = parent.getItemAtPosition(position);
+                addBtn.setEnabled(true);
             }
         });
 
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ingredientsArrayList.add(itemSelected[0]);
+
+                Toast.makeText(getContext(),ingredientsArrayList.toString(), Toast.LENGTH_LONG).show();
+                ArrayAdapter<String> adapterList = new ArrayAdapter<String> (getContext(),android.R.layout.select_dialog_item,
+                        new ArrayList<>(ingredientsArrayList));
+
+                selectedListView.setAdapter(adapterList);
+                addBtn.setEnabled(false);
+            }
+        });
 
         // Selecionar filtro
         //Dados para teste

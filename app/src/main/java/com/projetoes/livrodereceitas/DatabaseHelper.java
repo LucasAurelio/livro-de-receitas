@@ -107,6 +107,5 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     //Queries
-    public 
 
 }
