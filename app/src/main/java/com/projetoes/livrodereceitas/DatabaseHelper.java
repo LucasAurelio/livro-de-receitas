@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final int DATABASE_VERSION = 1;
 
     private static String DATABASE_PATH = "/data/data/com.projetoes.livrodereceitas/databases/";
-    public static final String DATABASE_NAME = "repositorioDeReceitas";
+    public static final String DATABASE_NAME = "repositorioDeReceitas.db";
 
     private static SQLiteDatabase ourDataBase;
 
@@ -51,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         try{
             String testPath = DATABASE_PATH + DATABASE_NAME;
-            checkDB = SQLiteDatabase.openDatabase(testPath,null,SQLiteDatabase.OPEN_READONLY);
+            checkDB = SQLiteDatabase.openDatabase(testPath,null,SQLiteDatabase.OPEN_READWRITE);
         }catch(SQLiteException e){
             // DataBase does not exist yet
         }
