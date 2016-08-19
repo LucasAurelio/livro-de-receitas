@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.projetoes.livrodereceitas.CheckboxListViewAdapter;
+import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
 import com.roughike.bottombar.BottomBar;
 
@@ -76,15 +77,7 @@ public class SearchFragment extends Fragment {
 
         // Selecionar ingredientes
         //dados para teste
-        List ingredientList = new ArrayList();
-        ingredientList.add("Farinha");
-        ingredientList.add("Arroz");
-        ingredientList.add("Chocolate");
-        ingredientList.add("Milho");
-        ingredientList.add("Ovo");
-        ingredientList.add("Feijão");
-        ingredientList.add("Filé");
-        ingredientList.add("Castanha");
+        List ingredientList = ((MainActivity)getActivity()).populateCompleteText();
 
         final Object[] itemSelected = new Object[1];
         //Creating the instance of ArrayAdapter containing list of language names
@@ -103,6 +96,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        /*
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,13 +110,11 @@ public class SearchFragment extends Fragment {
                 addBtn.setEnabled(false);
             }
         });
+         */
 
         // Selecionar filtro
         //Dados para teste
-        List filterList = new ArrayList();
-        filterList.add("Carnes");
-        filterList.add("Massas");
-        filterList.add("Sobremesas");
+        List filterList = ((MainActivity)getActivity()).populateFilterList();
 
         ListView checkboxListView = (ListView) view.findViewById(R.id.filter_list);
         checkboxListView.setAdapter(new CheckboxListViewAdapter(getActivity(),filterList));

@@ -1,5 +1,6 @@
 package com.projetoes.livrodereceitas;
 
+import android.database.Cursor;
 import android.database.SQLException;
 import android.os.PersistableBundle;
 import android.support.annotation.IdRes;
@@ -18,6 +19,8 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -200,5 +203,25 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    public ArrayList populateCompleteText(){
+        Cursor alimentos = ourDB.getAlimentos();
+        ArrayList<String> allAlimentos = new ArrayList<>();
+        alimentos.moveToFirst();
+        while(!alimentos.isAfterLast()){
+            allAlimentos.add(alimentos.getString(0));
+            alimentos.moveToNext();
+        }
+        return allAlimentos;
+    }
 
+    public ArrayList populateFilterList() {
+        Cursor filtros = ourDB.getFiltros();
+        ArrayList<String> allFiltros = new ArrayList<>();
+        filtros.moveToFirst();
+        while(!filtros.isAfterLast()){
+            allFiltros.add(filtros.getString(0));
+            filtros.moveToNext();
+        }
+        return allFiltros;
+    }
 }

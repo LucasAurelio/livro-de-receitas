@@ -1,6 +1,7 @@
 package com.projetoes.livrodereceitas;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -16,7 +17,6 @@ import java.io.OutputStream;
  */
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    // Database Version
     private static final int DATABASE_VERSION = 1;
 
     private static String DATABASE_PATH = "/data/data/com.projetoes.livrodereceitas/databases/";
@@ -104,6 +104,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public Cursor getAlimentos() {
+        Cursor cursor = ourDataBase.rawQuery("SELECT nome FROM alimento",null);
+        return cursor;
+    }
+
+    public Cursor getFiltros() {
+        Cursor cursor = ourDataBase.rawQuery("Select DISTINCT categoria FROM receita",null);
+        return cursor;
     }
 
     //Queries
