@@ -35,7 +35,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         boolean dbExists = checkDataBase();
 
         if(dbExists){
-            //all good
+            //lembrar de excluir
+            ourDataBase.close();
+            ourContext.deleteDatabase(DATABASE_NAME);
+            this.getReadableDatabase();
+            try{
+                copyDataBase();
+            }catch (IOException e){
+                throw new Error("error copying database");
+            }
         }else{
             this.getReadableDatabase();
             try{
