@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 /**
  * Created by lucas on 08/08/2016.
@@ -18,13 +19,12 @@ import java.io.OutputStream;
 public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static final int DATABASE_VERSION = 1;
-
     private static String DATABASE_PATH = "/data/data/com.projetoes.livrodereceitas/databases/";
     public static final String DATABASE_NAME = "repositorioDeReceitas.db";
 
     private static SQLiteDatabase ourDataBase;
-
     private final Context ourContext;
+
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -100,22 +100,58 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db){
 
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 
+
+    //QUERIES
     public Cursor getAlimentos() {
         Cursor cursor = ourDataBase.rawQuery("SELECT nome FROM alimento",null);
         return cursor;
     }
 
-    public Cursor getFiltros() {
+    public Cursor getCategorias() {
         Cursor cursor = ourDataBase.rawQuery("Select DISTINCT categoria FROM receita",null);
         return cursor;
     }
 
-    //Queries
+    public Cursor getReceitasPorCompatibilidade(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
+        String allIngredientes = "'%'" + listaIngredientes.get(0) +"'%'";
+        for(int i=1;i<listaIngredientes.size();i++){
+            allIngredientes += " OR g.nome LIKE '%'" + listaIngredientes.get(i) +'%';
+        }
+
+        String allFiltros = "'%'" + listaFiltros.get(0) +"'%'";
+        for(int i=1;i<listaFiltros.size();i++){
+            allFiltros += " OR p.categoria LIKE '%'" + listaFiltros.get(i) +'%';
+        }
+
+        Cursor cursor = ourDataBase.rawQuery(
+                "SELECT p.nome, p._id, COUNT(g.nome) as ranker " +
+                "FROM receita p, ingrediente g, receita_ingredientes f " +
+                "WHERE p._id = f.id_receita " +
+                "AND g._id = f.id_ingrediente " +
+                "AND (p.categoria LIKE " + allFiltros + ") " +
+                "AND (g.nome LIKE " + allIngredientes +") "+
+                "GROUP BY p._id " +
+                "ORDER BY ranker DESC",null);
+
+        return cursor;
+    }
+
+    public Cursor getReceitaSelecionada(int idDaReceita){
+        Cursor cursor = ourDataBase.rawQuery(
+                "SELECT p.nome, p.descricao, f.quantidade, g.nome " +
+                "FROM receita p, ingrediente g, receita_ingredientes f " +
+                "WHERE p._id =  " + idDaReceita  +
+                "AND p._id = f.id_receita " +
+                "AND g._id = f.id_ingrediente",null);
+
+        return cursor;
+    }
+
+
 
 }

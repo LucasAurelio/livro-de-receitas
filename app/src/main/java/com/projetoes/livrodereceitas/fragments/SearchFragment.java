@@ -75,8 +75,7 @@ public class SearchFragment extends Fragment {
         final ListView selectedListView = (ListView) view.findViewById(R.id.selected_ingredients_list);
 
 
-        // Selecionar ingredientes
-        //dados para teste
+        // Ingredientes disponíveis
         List ingredientList = ((MainActivity)getActivity()).populateCompleteText();
 
         final Object[] itemSelected = new Object[1];
@@ -96,7 +95,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        /*
+
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,10 +109,9 @@ public class SearchFragment extends Fragment {
                 addBtn.setEnabled(false);
             }
         });
-         */
 
-        // Selecionar filtro
-        //Dados para teste
+
+        // Filtros disponíveis
         List filterList = ((MainActivity)getActivity()).populateFilterList();
 
         ListView checkboxListView = (ListView) view.findViewById(R.id.filter_list);

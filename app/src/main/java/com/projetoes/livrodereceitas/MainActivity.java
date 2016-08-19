@@ -20,7 +20,6 @@ import com.roughike.bottombar.OnMenuTabClickListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -215,13 +214,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public ArrayList populateFilterList() {
-        Cursor filtros = ourDB.getFiltros();
-        ArrayList<String> allFiltros = new ArrayList<>();
-        filtros.moveToFirst();
-        while(!filtros.isAfterLast()){
-            allFiltros.add(filtros.getString(0));
-            filtros.moveToNext();
+        Cursor categorias = ourDB.getCategorias();
+        ArrayList<String> allCategorias = new ArrayList<>();
+        categorias.moveToFirst();
+        while(!categorias.isAfterLast()){
+            allCategorias.add(categorias.getString(0));
+            categorias.moveToNext();
         }
-        return allFiltros;
+        return allCategorias;
     }
+
+    public ArrayList viewReceitasCompativeis(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
+        Cursor receitasCompativeis = ourDB.getReceitasPorCompatibilidade(listaIngredientes,listaFiltros);
+        ArrayList<String> allReceitasCompativeis = new ArrayList<>();
+        receitasCompativeis.moveToFirst();
+        while(!receitasCompativeis.isAfterLast()){
+            allReceitasCompativeis.add(receitasCompativeis.getString(0));
+            receitasCompativeis.moveToNext();
+        }
+
+        return allReceitasCompativeis;
+    }
+
+    public ArrayList viewReceitaSelecionada(int idSelecionado){
+        Cursor receitaSelecionada = ourDB.getReceitaSelecionada(idSelecionado);
+        //criar função de interação com o SearchFragment
+        return null;
+    }
+
+
 }
