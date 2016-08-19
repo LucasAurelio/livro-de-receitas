@@ -120,12 +120,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public Cursor getReceitasPorCompatibilidade(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
         String allIngredientes = "'%'" + listaIngredientes.get(0) +"'%'";
         for(int i=1;i<listaIngredientes.size();i++){
-            allIngredientes += " OR g.nome LIKE '%'" + listaIngredientes.get(i) +'%';
+            allIngredientes += " OR g.nome LIKE '%'" + listaIngredientes.get(i) +"'%'";
         }
 
         String allFiltros = "'%'" + listaFiltros.get(0) +"'%'";
         for(int i=1;i<listaFiltros.size();i++){
-            allFiltros += " OR p.categoria LIKE '%'" + listaFiltros.get(i) +'%';
+            allFiltros += " OR p.categoria LIKE '%'" + listaFiltros.get(i) +"'%'";
         }
 
         Cursor cursor = ourDataBase.rawQuery(

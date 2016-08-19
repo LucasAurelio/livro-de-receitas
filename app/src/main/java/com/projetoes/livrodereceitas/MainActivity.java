@@ -225,6 +225,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public ArrayList viewReceitasCompativeis(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
+        if (listaFiltros.isEmpty()){
+            listaFiltros.add("");
+        }
         Cursor receitasCompativeis = ourDB.getReceitasPorCompatibilidade(listaIngredientes,listaFiltros);
         ArrayList<String> allReceitasCompativeis = new ArrayList<>();
         receitasCompativeis.moveToFirst();
