@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.projetoes.livrodereceitas.CheckboxListViewAdapter;
 import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
+import com.projetoes.livrodereceitas.SelectedIngredientsListViewAdapter;
 import com.roughike.bottombar.BottomBar;
 
 import java.lang.reflect.Array;
@@ -65,7 +66,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        final View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         final HashSet ingredientsArrayList = new HashSet();
 
@@ -100,13 +101,23 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ingredientsArrayList.add(itemSelected[0]);
+                // Utulização de ArrayList para o adapter
+                ArrayList<String> myItens = new ArrayList<String>();
+                for(int i =0; i < ingredientsArrayList.toArray().length; i++){
+                    myItens.add(ingredientsArrayList.toArray()[i].toString());
+                }
+
+                // Povoar a ListView de ingredientes selecionados com botão de remover
+                ListView selectIngListView = (ListView) view.findViewById(R.id.selected_ingredients_list);
+                selectIngListView.setAdapter(new SelectedIngredientsListViewAdapter(getActivity(), myItens));
 
                 Toast.makeText(getContext(),ingredientsArrayList.toString(), Toast.LENGTH_LONG).show();
                 ArrayAdapter<String> adapterList = new ArrayAdapter<String> (getContext(),android.R.layout.select_dialog_item,
                         new ArrayList<>(ingredientsArrayList));
 
-                selectedListView.setAdapter(adapterList);
+              //  selectedListView.setAdapter(adapterList);
                 addBtn.setEnabled(false);
+
             }
         });
 
@@ -116,6 +127,10 @@ public class SearchFragment extends Fragment {
 
         ListView checkboxListView = (ListView) view.findViewById(R.id.filter_list);
         checkboxListView.setAdapter(new CheckboxListViewAdapter(getActivity(),filterList));
+
+
+
+
 
         return view;
 
