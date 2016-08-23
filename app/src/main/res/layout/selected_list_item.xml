@@ -18,12 +18,13 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/add"
+            android:id="@+id/remove_ingredient"
             style="@style/Widget.AppCompat.Button.Small"
             android:text="Remover"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:focusable="false"
             android:textAppearance="?android:attr/textAppearanceSmall"
             />
 

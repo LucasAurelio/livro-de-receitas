@@ -75,6 +75,9 @@ public class SearchFragment extends Fragment {
 
         final ListView selectedListView = (ListView) view.findViewById(R.id.selected_ingredients_list);
 
+        final ArrayList<String> myItems = new ArrayList<String>();
+        final ListView selectIngListView = (ListView) view.findViewById(R.id.selected_ingredients_list);
+
 
         // Ingredientes disponíveis
         List ingredientList = ((MainActivity)getActivity()).populateCompleteText();
@@ -97,19 +100,20 @@ public class SearchFragment extends Fragment {
         });
 
 
+
+
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ingredientsArrayList.add(itemSelected[0]);
                 // Utulização de ArrayList para o adapter
-                ArrayList<String> myItens = new ArrayList<String>();
-                for(int i =0; i < ingredientsArrayList.toArray().length; i++){
-                    myItens.add(ingredientsArrayList.toArray()[i].toString());
-                }
+
+                myItems.add(itemSelected[0].toString());
 
                 // Povoar a ListView de ingredientes selecionados com botão de remover
-                ListView selectIngListView = (ListView) view.findViewById(R.id.selected_ingredients_list);
-                selectIngListView.setAdapter(new SelectedIngredientsListViewAdapter(getActivity(), myItens));
+                selectIngListView.setAdapter(new SelectedIngredientsListViewAdapter(getActivity(), myItems));
+
+
 
                 Toast.makeText(getContext(),ingredientsArrayList.toString(), Toast.LENGTH_LONG).show();
                 ArrayAdapter<String> adapterList = new ArrayAdapter<String> (getContext(),android.R.layout.select_dialog_item,

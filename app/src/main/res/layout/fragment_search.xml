@@ -83,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/selected_ingredients_list"
+                android:focusable="true"
                 />
 
         </LinearLayout>

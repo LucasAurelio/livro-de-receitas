@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+
 
 import android.widget.TextView;
 
@@ -40,20 +42,33 @@ public class SelectedIngredientsListViewAdapter extends  ArrayAdapter<String>  {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         String currItem = items.get(position);
+        LayoutInflater inflater = activity.getLayoutInflater();
 
         if (convertView == null) {
-            LayoutInflater inflater = activity.getLayoutInflater();
             convertView = inflater.inflate(R.layout.selected_list_item, null);
         }
 
         TextView listItem = (TextView) convertView.findViewById(R.id.selected_element);
         listItem.setText(currItem);
 
+        Button removeIngredientButton = (Button) convertView.findViewById(R.id.remove_ingredient);
+
+        removeIngredientButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeIngredient(position);
+            }
+        });
 
         return convertView;
+    }
+
+    private void removeIngredient(int position){
+        items.remove(position);
+        notifyDataSetChanged();
     }
 
 }
