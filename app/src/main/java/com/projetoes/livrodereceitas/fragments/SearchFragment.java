@@ -73,8 +73,6 @@ public class SearchFragment extends Fragment {
         final Button addBtn = (Button) view.findViewById(R.id.add);
         addBtn.setEnabled(false);
 
-        final ListView selectedListView = (ListView) view.findViewById(R.id.selected_ingredients_list);
-
         final ArrayList<String> myItems = new ArrayList<String>();
         final ListView selectIngListView = (ListView) view.findViewById(R.id.selected_ingredients_list);
 
@@ -112,14 +110,9 @@ public class SearchFragment extends Fragment {
 
                 // Povoar a ListView de ingredientes selecionados com botão de remover
                 selectIngListView.setAdapter(new SelectedIngredientsListViewAdapter(getActivity(), myItems));
+                ListUtils.setDynamicHeight(selectIngListView);
 
-
-
-                Toast.makeText(getContext(),ingredientsArrayList.toString(), Toast.LENGTH_LONG).show();
-                ArrayAdapter<String> adapterList = new ArrayAdapter<String> (getContext(),android.R.layout.select_dialog_item,
-                        new ArrayList<>(ingredientsArrayList));
-
-              //  selectedListView.setAdapter(adapterList);
+                //Toast.makeText(getContext(),ingredientsArrayList.toString(), Toast.LENGTH_LONG).show();
                 addBtn.setEnabled(false);
 
             }
@@ -131,13 +124,32 @@ public class SearchFragment extends Fragment {
 
         ListView checkboxListView = (ListView) view.findViewById(R.id.filter_list);
         checkboxListView.setAdapter(new CheckboxListViewAdapter(getActivity(),filterList));
-
-
-
-
+        ListUtils.setDynamicHeight(checkboxListView);
 
         return view;
 
+    }
+
+
+    public static class ListUtils {
+        public static void setDynamicHeight(ListView mListView) {
+            ListAdapter mListAdapter = mListView.getAdapter();
+            if (mListAdapter == null) {
+                // when adapter is null
+                return;
+            }
+            int height = 0;
+            int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+            for (int i = 0; i < mListAdapter.getCount(); i++) {
+                View listItem = mListAdapter.getView(i, null, mListView);
+                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                height += listItem.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = mListView.getLayoutParams();
+            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
+            mListView.setLayoutParams(params);
+            mListView.requestLayout();
+        }
     }
 
 }

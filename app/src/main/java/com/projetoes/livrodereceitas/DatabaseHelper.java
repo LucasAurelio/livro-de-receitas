@@ -36,7 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         if(dbExists){
             //lembrar de excluir
-            ourDataBase.close();
+            //ourDataBase.close();
             ourContext.deleteDatabase(DATABASE_NAME);
             this.getReadableDatabase();
             try{

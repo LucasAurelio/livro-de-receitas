@@ -72,8 +72,7 @@ public class MainActivity extends AppCompatActivity {
         mBottomBar.onSaveInstanceState(outState);
     }
 
-
-    public void onSearchButtonPressed(View view) {
+    public void onSelectButtonPressed(View view) {
         //changeFragment(searchFragment, InitialFragment.TAG ,true);
 
 
@@ -243,6 +242,10 @@ public class MainActivity extends AppCompatActivity {
         Cursor receitaSelecionada = ourDB.getReceitaSelecionada(idSelecionado);
         //criar função de interação com o SearchFragment
         return null;
+    }
+
+    public void onSearchButtonPressed(View view){
+
     }
 
 
