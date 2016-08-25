@@ -238,10 +238,24 @@ public class MainActivity extends AppCompatActivity {
         return allReceitasCompativeis;
     }
 
-    public ArrayList viewReceitaSelecionada(int idSelecionado){
-        Cursor receitaSelecionada = ourDB.getReceitaSelecionada(idSelecionado);
-        //criar função de interação com o SearchFragment
-        return null;
+    public ArrayList viewReceitaSelecionada(String nomeSelecionado){
+        Cursor receitaSelecionada = ourDB.getReceitaSelecionada(nomeSelecionado);
+        ArrayList<String> aReceita = new ArrayList<>();
+        receitaSelecionada.moveToFirst();
+        aReceita.add(receitaSelecionada.getString(0));
+        while(!receitaSelecionada.isAfterLast()){
+            aReceita.add(receitaSelecionada.getString(1));
+            aReceita.add((receitaSelecionada.getString(2)));
+            receitaSelecionada.moveToNext();
+        }
+        aReceita.add(receitaSelecionada.getString(3));
+
+        /*
+        ArrayList: sendo o primeiro elemento o título da receita,
+        todos os seguintes na sequencia -> quantidade do ingrediente e logo após o ingrediente
+        e o último elemento é o modo de fazer.
+         */
+        return aReceita;
     }
 
     public void onSearchButtonPressed(View view){

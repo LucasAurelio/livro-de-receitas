@@ -126,22 +126,22 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public Cursor getReceitasPorCompatibilidade(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
-        String allIngredientes = "'%'" + listaIngredientes.get(0) +"'%'";
+        String allIngredientes = "'%" + listaIngredientes.get(0) +"%'";
         for(int i=1;i<listaIngredientes.size();i++){
-            allIngredientes += " OR g.nome LIKE '%'" + listaIngredientes.get(i) +"'%'";
+            allIngredientes += " OR g.nome LIKE '%" + listaIngredientes.get(i) +"%'";
         }
 
-        String allFiltros = "'%'" + listaFiltros.get(0) +"'%'";
+        String allFiltros = "'" + listaFiltros.get(0) +"'";
         for(int i=1;i<listaFiltros.size();i++){
-            allFiltros += " OR p.categoria LIKE '%'" + listaFiltros.get(i) +"'%'";
+            allFiltros += " OR p.categoria = '" + listaFiltros.get(i) +"'";
         }
 
         Cursor cursor = ourDataBase.rawQuery(
-                "SELECT p.nome, p._id, COUNT(g.nome) as ranker " +
+                "SELECT p.nome, COUNT(g.nome) as ranker " +
                 "FROM receita p, ingrediente g, receita_ingredientes f " +
                 "WHERE p._id = f.id_receita " +
                 "AND g._id = f.id_ingrediente " +
-                "AND (p.categoria LIKE " + allFiltros + ") " +
+                "AND (p.categoria = " + allFiltros + ") " +
                 "AND (g.nome LIKE " + allIngredientes +") "+
                 "GROUP BY p._id " +
                 "ORDER BY ranker DESC",null);
@@ -149,11 +149,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursor;
     }
 
-    public Cursor getReceitaSelecionada(int idDaReceita){
+    public Cursor getReceitaSelecionada(String nomeDaReceita){
         Cursor cursor = ourDataBase.rawQuery(
-                "SELECT p.nome, p.descricao, f.quantidade, g.nome " +
+                "SELECT p.nome, f.quantidade, g.nome, p.descricao " +
                 "FROM receita p, ingrediente g, receita_ingredientes f " +
-                "WHERE p._id =  " + idDaReceita  +
+                "WHERE p.nome =  " + nomeDaReceita  +
                 "AND p._id = f.id_receita " +
                 "AND g._id = f.id_ingrediente",null);
 
