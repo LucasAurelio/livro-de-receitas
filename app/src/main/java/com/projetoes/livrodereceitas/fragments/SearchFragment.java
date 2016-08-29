@@ -114,6 +114,9 @@ public class SearchFragment extends Fragment {
 
                 //Toast.makeText(getContext(),ingredientsArrayList.toString(), Toast.LENGTH_LONG).show();
                 addBtn.setEnabled(false);
+                Toast.makeText(getContext(),  myItems.toString() , Toast.LENGTH_SHORT).show();
+
+
 
             }
         });
