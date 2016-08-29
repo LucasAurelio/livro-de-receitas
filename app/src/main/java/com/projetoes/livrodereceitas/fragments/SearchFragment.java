@@ -106,7 +106,11 @@ public class SearchFragment extends Fragment {
                 ingredientsArrayList.add(itemSelected[0]);
                 // Utulização de ArrayList para o adapter
 
-                myItems.add(itemSelected[0].toString());
+                if(!myItems.contains(itemSelected[0].toString())){
+                    myItems.add(itemSelected[0].toString());
+
+                }
+
 
                 // Povoar a ListView de ingredientes selecionados com botão de remover
                 selectIngListView.setAdapter(new SelectedIngredientsListViewAdapter(getActivity(), myItems));
