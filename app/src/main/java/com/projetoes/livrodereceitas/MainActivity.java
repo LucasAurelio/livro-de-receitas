@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.projetoes.livrodereceitas.fragments.InitialFragment;
 import com.projetoes.livrodereceitas.fragments.SearchFragment;
+import com.projetoes.livrodereceitas.fragments.ListRecipesFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private BottomBar mBottomBar;
     private InitialFragment initialFragment;
     private SearchFragment searchFragment;
+    private ListRecipesFragment listRecipesFragment;
+
     public static final String TAG = "MAIN_ACTIVITY";
 
 
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         initialFragment = InitialFragment.getInstance();
         searchFragment = SearchFragment.getInstance();
+        listRecipesFragment = ListRecipesFragment.getInstance();
 
 
         changeFragment(initialFragment, InitialFragment.TAG ,true);
@@ -259,6 +263,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSearchButtonPressed(View view){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
+                listRecipesFragment, ListRecipesFragment.TAG).addToBackStack(ListRecipesFragment.TAG).commit();
 
     }
 
