@@ -52,9 +52,7 @@ public class RecipeListViewAdapter extends  ArrayAdapter  {
         }
 
         TextView recipeName = (TextView) convertView.findViewById(R.id.recipe_item_name);
-        TextView recipeDiff = (TextView) convertView.findViewById(R.id.recipe_item_difficulty);
-        TextView recipeServe = (TextView) convertView.findViewById(R.id.recipe_item_serve);
-        TextView recipeTime = (TextView) convertView.findViewById(R.id.recipe_item_time);
+
 
         recipeName.setText(currItem);
 

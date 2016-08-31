@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
@@ -55,12 +57,46 @@ public class ListRecipesFragment extends Fragment {
 
         final ListView recipesListView = (ListView) view.findViewById(R.id.recipes_result);
 
-        recipesListView.setAdapter(new RecipeListViewAdapter(getActivity(), recipeList));
-        //ListUtils.setDynamicHeight(recipesListView);
+        TextView result = (TextView) view.findViewById(R.id.result);
+
+        if(recipeList.isEmpty()){
+            result.setText("Ops, não encontramos nenhuma receita com essas opções :(");
+        }
+        else {
+            result.setText("Resultado da pesquisa:");
+            recipesListView.setAdapter(new RecipeListViewAdapter(getActivity(), recipeList));
+
+        }
+
+
+
+        ListUtils.setDynamicHeight(recipesListView);
 
 
 
 
         return view;
     }
+
+    public static class ListUtils {
+        public static void setDynamicHeight(ListView mListView) {
+            ListAdapter mListAdapter = mListView.getAdapter();
+            if (mListAdapter == null) {
+                // when adapter is null
+                return;
+            }
+            int height = 0;
+            int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+            for (int i = 0; i < mListAdapter.getCount(); i++) {
+                View listItem = mListAdapter.getView(i, null, mListView);
+                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                height += listItem.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = mListView.getLayoutParams();
+            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
+            mListView.setLayoutParams(params);
+            mListView.requestLayout();
+        }
+    }
 }
+

@@ -6,24 +6,27 @@
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_margin="5dp">
 
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/result"
                 android:text="Resultado da pesquisa:"
-                style="@style/text"/>
+                style="@style/TextAppearance.AppCompat.Display1"
+                android:layout_margin="5dp"/>
+
 
             <ListView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="450dp"
                 android:id="@+id/recipes_result"
                 android:focusable="true"

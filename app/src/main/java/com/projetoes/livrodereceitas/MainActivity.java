@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onRecipePressed(View view){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
-                viewRecipeFragment, ListRecipesFragment.TAG).addToBackStack(ViewRecipeFragment.TAG).commit();
+                viewRecipeFragment, ViewRecipeFragment.TAG).addToBackStack(ViewRecipeFragment.TAG).commit();
 
     }
 
