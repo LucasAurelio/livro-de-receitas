@@ -1,6 +1,7 @@
 package com.projetoes.livrodereceitas.fragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,8 +15,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.util.SparseBooleanArray;
 
 import com.projetoes.livrodereceitas.CheckboxListViewAdapter;
+import com.projetoes.livrodereceitas.DatabaseHelper;
 import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
 import com.projetoes.livrodereceitas.SelectedIngredientsListViewAdapter;
@@ -35,6 +38,7 @@ public class SearchFragment extends Fragment {
 
     private static SearchFragment fragment;
     public static final String TAG = "SEARCH_FRAGMENT";
+
 
 
     public SearchFragment() {
@@ -76,6 +80,8 @@ public class SearchFragment extends Fragment {
         final ArrayList<String> myItems = new ArrayList<String>();
         final ListView selectIngListView = (ListView) view.findViewById(R.id.selected_ingredients_list);
 
+        final Button srcBtn = (Button) view.findViewById(R.id.search_btn);
+
 
         // Ingredientes disponíveis
         List ingredientList = ((MainActivity)getActivity()).populateCompleteText();
@@ -111,7 +117,6 @@ public class SearchFragment extends Fragment {
 
                 }
 
-
                 // Povoar a ListView de ingredientes selecionados com botão de remover
                 selectIngListView.setAdapter(new SelectedIngredientsListViewAdapter(getActivity(), myItems));
                 ListUtils.setDynamicHeight(selectIngListView);
@@ -119,19 +124,27 @@ public class SearchFragment extends Fragment {
                 //Toast.makeText(getContext(),ingredientsArrayList.toString(), Toast.LENGTH_LONG).show();
                 addBtn.setEnabled(false);
                 Toast.makeText(getContext(),  myItems.toString() , Toast.LENGTH_SHORT).show();
-
-
-
             }
         });
 
 
         // Filtros disponíveis
-        List filterList = ((MainActivity)getActivity()).populateFilterList();
+        final List filterList = ((MainActivity)getActivity()).populateFilterList();
 
-        ListView checkboxListView = (ListView) view.findViewById(R.id.filter_list);
+        final ListView checkboxListView = (ListView) view.findViewById(R.id.filter_list);
         checkboxListView.setAdapter(new CheckboxListViewAdapter(getActivity(),filterList));
         ListUtils.setDynamicHeight(checkboxListView);
+
+
+        srcBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),  ((MainActivity)getActivity()).viewReceitasCompativeis(myItems, (ArrayList<String>) filterList).toString() , Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
 
         return view;
 

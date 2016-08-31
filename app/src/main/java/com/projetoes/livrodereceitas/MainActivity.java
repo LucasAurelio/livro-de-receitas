@@ -262,6 +262,10 @@ public class MainActivity extends AppCompatActivity {
         return aReceita;
     }
 
+    public ArrayList<String> getRecipeName(ArrayList<String> ingredients, ArrayList<String> filters){
+        return (ArrayList<String>) ourDB.getReceitasPorCompatibilidade(ingredients, filters);
+    }
+
     public void onSearchButtonPressed(View view){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
                 listRecipesFragment, ListRecipesFragment.TAG).addToBackStack(ListRecipesFragment.TAG).commit();
