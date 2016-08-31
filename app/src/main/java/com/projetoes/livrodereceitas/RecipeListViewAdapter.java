@@ -8,16 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeListViewAdapter extends  ArrayAdapter  {
 
-    private List items;
+    private List<String> items;
     private Activity activity;
 
-    public RecipeListViewAdapter(Activity activity, List items) {
+    public RecipeListViewAdapter(Activity activity, List<String> items) {
         super(activity, android.R.layout.simple_list_item_1,items );
 
         this.items = items;
@@ -25,8 +26,8 @@ public class RecipeListViewAdapter extends  ArrayAdapter  {
     }
 
     @Override
-    public List getItem(int position) {
-        return (List) items.get(position);
+    public String getItem(int position) {
+        return items.get(position);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class RecipeListViewAdapter extends  ArrayAdapter  {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        List currItem = (List) items.get(position);
+        String currItem = items.get(position);
         LayoutInflater inflater = activity.getLayoutInflater();
 
         if (convertView == null) {
@@ -51,7 +52,21 @@ public class RecipeListViewAdapter extends  ArrayAdapter  {
         }
 
         TextView recipeName = (TextView) convertView.findViewById(R.id.recipe_item_name);
-        recipeName.setText(currItem.get(0).toString());
+        TextView recipeDiff = (TextView) convertView.findViewById(R.id.recipe_item_difficulty);
+        TextView recipeServe = (TextView) convertView.findViewById(R.id.recipe_item_serve);
+        TextView recipeTime = (TextView) convertView.findViewById(R.id.recipe_item_time);
+
+        recipeName.setText(currItem);
+
+
+
+        recipeName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(getContext(), ((MainActivity) activity).viewReceitaSelecionada(currItem).toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
 
 

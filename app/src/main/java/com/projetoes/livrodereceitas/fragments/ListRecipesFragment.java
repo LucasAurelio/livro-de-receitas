@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
+import com.projetoes.livrodereceitas.RecipeListViewAdapter;
 import com.projetoes.livrodereceitas.SelectedIngredientsListViewAdapter;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class ListRecipesFragment extends Fragment {
 
         final ListView recipesListView = (ListView) view.findViewById(R.id.recipes_result);
 
-        recipesListView.setAdapter(new SelectedIngredientsListViewAdapter(getActivity(), recipeList));
+        recipesListView.setAdapter(new RecipeListViewAdapter(getActivity(), recipeList));
         //ListUtils.setDynamicHeight(recipesListView);
 
 
