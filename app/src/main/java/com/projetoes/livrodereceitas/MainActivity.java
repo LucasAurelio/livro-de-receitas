@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private InitialFragment initialFragment;
     private SearchFragment searchFragment;
     private ListRecipesFragment listRecipesFragment;
+    private ArrayList<String> resultRecipeList;
 
     public static final String TAG = "MAIN_ACTIVITY";
 
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         initialFragment = InitialFragment.getInstance();
         searchFragment = SearchFragment.getInstance();
         listRecipesFragment = ListRecipesFragment.getInstance();
+
+        resultRecipeList = new ArrayList<String>();
 
 
         changeFragment(initialFragment, InitialFragment.TAG ,true);
@@ -239,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
             receitasCompativeis.moveToNext();
         }
 
+        resultRecipeList = allReceitasCompativeis;
         return allReceitasCompativeis;
     }
 
@@ -262,14 +266,14 @@ public class MainActivity extends AppCompatActivity {
         return aReceita;
     }
 
-    public ArrayList<String> getRecipeName(ArrayList<String> ingredients, ArrayList<String> filters){
-        return (ArrayList<String>) ourDB.getReceitasPorCompatibilidade(ingredients, filters);
-    }
-
     public void onSearchButtonPressed(View view){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
                 listRecipesFragment, ListRecipesFragment.TAG).addToBackStack(ListRecipesFragment.TAG).commit();
 
+    }
+
+    public ArrayList<String> getResultRecipeList(){
+        return resultRecipeList;
     }
 
 

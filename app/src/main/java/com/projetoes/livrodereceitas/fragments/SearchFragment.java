@@ -130,17 +130,26 @@ public class SearchFragment extends Fragment {
 
         // Filtros disponíveis
         final List filterList = ((MainActivity)getActivity()).populateFilterList();
+        final List selectedFilterList = ((MainActivity)getActivity()).populateFilterList();
+
 
         final ListView checkboxListView = (ListView) view.findViewById(R.id.filter_list);
-        checkboxListView.setAdapter(new CheckboxListViewAdapter(getActivity(),filterList));
+        checkboxListView.setAdapter(new CheckboxListViewAdapter(getActivity(),filterList, selectedFilterList));
         ListUtils.setDynamicHeight(checkboxListView);
 
 
         srcBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),  ((MainActivity)getActivity()).viewReceitasCompativeis(myItems, (ArrayList<String>) filterList).toString() , Toast.LENGTH_SHORT).show();
 
+                if(myItems.isEmpty() || selectedFilterList.isEmpty()){
+                    Toast.makeText(getContext(),  "Selecione ao menos um item e filtro" , Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    Toast.makeText(getContext(), ((MainActivity) getActivity()).viewReceitasCompativeis(myItems, (ArrayList<String>) selectedFilterList).toString(), Toast.LENGTH_SHORT).show();
+                    ((MainActivity) getActivity()).onSearchButtonPressed(getView());
+                }
             }
         });
 

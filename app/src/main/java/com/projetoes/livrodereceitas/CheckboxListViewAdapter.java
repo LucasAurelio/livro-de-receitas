@@ -16,13 +16,14 @@ import java.util.List;
 
 public class CheckboxListViewAdapter extends ArrayAdapter<String> {
 
-    private final List<String> items;
+    private final List<String> items, selectedItems;
     private final Activity activity;
 
 
-    public CheckboxListViewAdapter(Activity activity, List<String> items) {
+    public CheckboxListViewAdapter(Activity activity, List<String> items, List<String> selectedItems) {
         super(activity, android.R.layout.simple_list_item_1,items );
         this.items = items;
+        this.selectedItems = selectedItems;
         this.activity = activity;
     }
 
@@ -60,11 +61,11 @@ public class CheckboxListViewAdapter extends ArrayAdapter<String> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if(!checkboxItem.isChecked() && items.contains(checkboxName.getText().toString())){
-                    items.remove(checkboxName.getText().toString());
+                if(!checkboxItem.isChecked() && selectedItems.contains(checkboxName.getText().toString())){
+                    selectedItems.remove(checkboxName.getText().toString());
                 }
-                else if(checkboxItem.isChecked() && !items.contains(checkboxName.getText().toString())) {
-                    items.add(checkboxName.getText().toString());
+                else if(checkboxItem.isChecked() && !selectedItems.contains(checkboxName.getText().toString())) {
+                    selectedItems.add(checkboxName.getText().toString());
                 }
 
             }

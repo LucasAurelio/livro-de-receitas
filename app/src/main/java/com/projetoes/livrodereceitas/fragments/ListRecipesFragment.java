@@ -5,8 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
+import com.projetoes.livrodereceitas.SelectedIngredientsListViewAdapter;
+
+import java.util.ArrayList;
 
 public class ListRecipesFragment extends Fragment {
 
@@ -45,6 +50,12 @@ public class ListRecipesFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_list_recipes, container, false);
 
+        final ArrayList<String> recipeList = ((MainActivity) getActivity()).getResultRecipeList();
+
+        final ListView recipesListView = (ListView) view.findViewById(R.id.recipes_result);
+
+        recipesListView.setAdapter(new SelectedIngredientsListViewAdapter(getActivity(), recipeList));
+        //ListUtils.setDynamicHeight(recipesListView);
 
 
 
