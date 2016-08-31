@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.projetoes.livrodereceitas.fragments.InitialFragment;
 import com.projetoes.livrodereceitas.fragments.SearchFragment;
 import com.projetoes.livrodereceitas.fragments.ListRecipesFragment;
+import com.projetoes.livrodereceitas.fragments.ViewRecipeFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
@@ -28,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private InitialFragment initialFragment;
     private SearchFragment searchFragment;
     private ListRecipesFragment listRecipesFragment;
+    private ViewRecipeFragment viewRecipeFragment;
     private ArrayList<String> resultRecipeList;
+    private ArrayList viewRecipe;
 
     public static final String TAG = "MAIN_ACTIVITY";
 
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         initialFragment = InitialFragment.getInstance();
         searchFragment = SearchFragment.getInstance();
         listRecipesFragment = ListRecipesFragment.getInstance();
+        viewRecipeFragment = ViewRecipeFragment.getInstance();
 
         resultRecipeList = new ArrayList<String>();
 
@@ -265,6 +269,8 @@ public class MainActivity extends AppCompatActivity {
         aReceita.add(ingredientes);
         aReceita.add(descricao);
 
+        viewRecipe = aReceita;
+
         /*
         ArrayList: sendo o primeiro elemento o título da receita,
         todos os seguintes na sequencia -> quantidade do ingrediente e logo após o ingrediente
@@ -278,9 +284,17 @@ public class MainActivity extends AppCompatActivity {
                 listRecipesFragment, ListRecipesFragment.TAG).addToBackStack(ListRecipesFragment.TAG).commit();
 
     }
+    public void onRecipePressed(View view){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
+                viewRecipeFragment, ListRecipesFragment.TAG).addToBackStack(ViewRecipeFragment.TAG).commit();
+
+    }
 
     public ArrayList<String> getResultRecipeList(){
         return resultRecipeList;
+    }
+    public ArrayList getViewRecipe(){
+        return viewRecipe;
     }
 
 

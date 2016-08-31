@@ -63,8 +63,8 @@ public class RecipeListViewAdapter extends  ArrayAdapter  {
         recipeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), ((MainActivity) activity).viewReceitaSelecionada(currItem).toString(), Toast.LENGTH_SHORT).show();
                 ((MainActivity) activity).viewReceitaSelecionada(currItem);
+                ((MainActivity) activity).onRecipePressed(view);
             }
         });
 

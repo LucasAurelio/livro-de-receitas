@@ -147,7 +147,7 @@ public class SearchFragment extends Fragment {
 
                 }
                 else {
-                    Toast.makeText(getContext(), ((MainActivity) getActivity()).viewReceitasCompativeis(myItems, (ArrayList<String>) selectedFilterList).toString(), Toast.LENGTH_SHORT).show();
+                    ((MainActivity) getActivity()).viewReceitasCompativeis(myItems, (ArrayList<String>) selectedFilterList);
                     ((MainActivity) getActivity()).onSearchButtonPressed(getView());
                 }
             }
