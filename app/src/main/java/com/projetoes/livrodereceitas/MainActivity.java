@@ -248,15 +248,22 @@ public class MainActivity extends AppCompatActivity {
 
     public ArrayList viewReceitaSelecionada(String nomeSelecionado){
         Cursor receitaSelecionada = ourDB.getReceitaSelecionada(nomeSelecionado);
-        ArrayList<String> aReceita = new ArrayList<>();
+        ArrayList aReceita = new ArrayList<>();
         receitaSelecionada.moveToFirst();
+        String descricao = null;
+
         aReceita.add(receitaSelecionada.getString(0));
+        ArrayList<String[]> ingredientes = new ArrayList<String[]>();
         while(!receitaSelecionada.isAfterLast()){
-            aReceita.add(receitaSelecionada.getString(1));
-            aReceita.add((receitaSelecionada.getString(2)));
+            String[] ingrediente = new String[2];
+            ingrediente[0] = receitaSelecionada.getString(1);
+            ingrediente[1] = receitaSelecionada.getString(2);
+            ingredientes.add(ingrediente);
+            descricao = receitaSelecionada.getString(3);
             receitaSelecionada.moveToNext();
         }
-        aReceita.add(receitaSelecionada.getString(3));
+        aReceita.add(ingredientes);
+        aReceita.add(descricao);
 
         /*
         ArrayList: sendo o primeiro elemento o título da receita,

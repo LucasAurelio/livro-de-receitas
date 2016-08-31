@@ -142,7 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 "WHERE p._id = f.id_receita " +
                 "AND g._id = f.id_ingrediente " +
                 "AND (p.categoria = " + allFiltros + ") " +
-                "AND (g.nome LIKE " + allIngredientes +") "+
+                "AND (g.nome LIKE " + allIngredientes + ") "+
                 "GROUP BY p._id " +
                 "ORDER BY ranker DESC",null);
 
@@ -153,8 +153,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         Cursor cursor = ourDataBase.rawQuery(
                 "SELECT p.nome, f.quantidade, g.nome, p.descricao " +
                 "FROM receita p, ingrediente g, receita_ingredientes f " +
-                "WHERE p.nome =  " + nomeDaReceita  +
-                "AND p._id = f.id_receita " +
+                "WHERE p.nome =  '" + nomeDaReceita  +
+                "' AND p._id = f.id_receita " +
                 "AND g._id = f.id_ingrediente",null);
 
         return cursor;
