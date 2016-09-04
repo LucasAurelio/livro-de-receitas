@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    //Popular opcoes de busca
     public ArrayList populateCompleteText(){
         Cursor alimentos = ourDB.getAlimentos();
         ArrayList<String> allAlimentos = new ArrayList<>();
@@ -222,9 +223,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return allAlimentos;
     }
-
     public ArrayList populateFilterList() {
-        Cursor categorias = ourDB.getCategorias();
+        Cursor categorias = ourDB.getTipos();
         ArrayList<String> allCategorias = new ArrayList<>();
         categorias.moveToFirst();
         while(!categorias.isAfterLast()){
@@ -234,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
         return allCategorias;
     }
 
+    // View resultados de busca
     public ArrayList viewReceitasCompativeis(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
         if (listaFiltros.isEmpty()){
             listaFiltros.add("");
@@ -249,7 +250,6 @@ public class MainActivity extends AppCompatActivity {
         resultRecipeList = allReceitasCompativeis;
         return allReceitasCompativeis;
     }
-
     public ArrayList viewReceitaSelecionada(String nomeSelecionado){
         Cursor receitaSelecionada = ourDB.getReceitaSelecionada(nomeSelecionado);
         ArrayList aReceita = new ArrayList<>();
@@ -278,6 +278,52 @@ public class MainActivity extends AppCompatActivity {
          */
         return aReceita;
     }
+
+    //view categorias
+    public ArrayList viewReceitasFavoritas(){
+        Cursor favoritas = ourDB.getReceitasFavoritas();
+        ArrayList<String> fvrts = new ArrayList<>();
+        favoritas.moveToFirst();
+
+        while(!favoritas.isAfterLast()){
+            fvrts.add(favoritas.getString(0));
+            favoritas.moveToNext();
+        }
+
+        return fvrts;
+    }
+    public ArrayList viewReceitasJaFiz(){
+        Cursor jaFiz = ourDB.getReceitasJaFiz();
+        ArrayList<String> fiz = new ArrayList<>();
+        jaFiz.moveToFirst();
+
+        while(!jaFiz.isAfterLast()){
+            fiz.add(jaFiz.getString(0));
+            jaFiz.moveToNext();
+        }
+
+        return fiz;
+    }
+    public ArrayList viewReceitasQueroFazer(){
+        Cursor queroFazer = ourDB.getReceitasQueroFazer();
+        ArrayList<String> quero = new ArrayList<>();
+        queroFazer.moveToFirst();
+
+        while(!queroFazer.isAfterLast()){
+            quero.add(queroFazer.getString(0));
+            queroFazer.moveToNext();
+        }
+
+        return quero;
+    }
+
+    // Achei esse método meio repetitivo, já que é só pra chamar um método da DatabaseHelper.
+    // Mas coloquei aqui porque acho que fica melhor pra manipular.
+    // Se vocês acharem que é isso mesmo é só excluir esse comentário.
+    public void categorizarReceita(String catgSelecionada,String recipe){
+        ourDB.setReceitaCategoria(catgSelecionada,recipe);
+    }
+
 
     public void onSearchButtonPressed(View view){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
