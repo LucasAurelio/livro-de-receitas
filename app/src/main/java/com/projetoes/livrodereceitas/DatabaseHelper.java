@@ -144,7 +144,33 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 "AND (p.tipo = " + allFiltros + ") " +
                 "AND (g.nome LIKE " + allIngredientes + ") "+
                 "GROUP BY p._id " +
+                "HAVING ranker > " + (listaIngredientes.size()-1) + " AND ranker <  "+ (listaIngredientes.size()+1)+" "+
                 "ORDER BY ranker DESC",null);
+
+        return cursor;
+    }
+
+    public Cursor getReceitasPorSimilaridade(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
+        String allIngredientes = "'%" + listaIngredientes.get(0) +"%'";
+        for(int i=1;i<listaIngredientes.size();i++){
+            allIngredientes += " OR g.nome LIKE '%" + listaIngredientes.get(i) +"%'";
+        }
+
+        String allFiltros = "'" + listaFiltros.get(0) +"'";
+        for(int i=1;i<listaFiltros.size();i++){
+            allFiltros += " OR p.tipo = '" + listaFiltros.get(i) +"'";
+        }
+
+        Cursor cursor = ourDataBase.rawQuery(
+                "SELECT p.nome, COUNT(g.nome) as ranker " +
+                "FROM receita p, ingrediente g, receita_ingredientes f " +
+                "WHERE p._id = f.id_receita " +
+                "AND g._id = f.id_ingrediente " +
+                "AND (p.tipo = " + allFiltros + ") " +
+                "AND (g.nome LIKE " + allIngredientes + ") "+
+                "GROUP BY p._id " +
+                "HAVING ranker < " + listaIngredientes.size() +" "+
+                "ORDER BY ranker DESC ",null);
 
         return cursor;
     }
