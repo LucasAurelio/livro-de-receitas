@@ -1,10 +1,14 @@
 package com.projetoes.livrodereceitas.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +24,9 @@ public class ViewRecipeFragment extends Fragment {
 
     private static ViewRecipeFragment fragment;
     public static final String TAG = "VIEW_RECIPE_FRAGMENT";
+    private boolean isFavorite = true;
+    private boolean isDone = false;
+    private boolean isWant = true;
 
     public ViewRecipeFragment() {
         // Required empty public constructor
@@ -67,8 +74,32 @@ public class ViewRecipeFragment extends Fragment {
         ingredientsListView.setAdapter(new IngredientsRecipeViewAdapter(getActivity(), recipeIngredients));
         ListUtils.setDynamicHeight(ingredientsListView );
 
+        ImageButton favoriteBtn = (ImageButton) view.findViewById(R.id.favorite_btn);
+
+        if (!isFavorite){
+            favoriteBtn.setBackgroundColor(Color.GRAY);
+        } else {
+            favoriteBtn.setBackgroundColor(Color.RED);
+        }
+
+        favoriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isFavorite = !isFavorite;
+                Log.d(TAG, "É favorita?: " + isFavorite);
+                if (!isFavorite){
+                    v.setBackgroundColor(Color.GRAY);
+                } else {
+                    v.setBackgroundColor(Color.RED);
+                }
+
+            }
+        });
 
 
+        ImageButton madeBtn = (ImageButton) view.findViewById(R.id.made_btn);
+
+        ImageButton wantBtn = (ImageButton) view.findViewById(R.id.want_btn);
 
         return view;
     }
