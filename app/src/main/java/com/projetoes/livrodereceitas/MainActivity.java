@@ -317,11 +317,13 @@ public class MainActivity extends AppCompatActivity {
         return quero;
     }
 
-    // Achei esse método meio repetitivo, já que é só pra chamar um método da DatabaseHelper.
-    // Mas coloquei aqui porque acho que fica melhor pra manipular.
-    // Se vocês acharem que é isso mesmo é só excluir esse comentário.
+
     public void categorizarReceita(String catgSelecionada,String recipe){
         ourDB.setReceitaCategoria(catgSelecionada,recipe);
+    }
+
+    public ArrayList<String> getCategoriasReceitas(){
+        return ourDB.getCategorias();
     }
 
 

@@ -13,9 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-/**
- * Created by lucas on 08/08/2016.
- */
+
 public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static final int DATABASE_VERSION = 1;
@@ -184,6 +182,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 "AND g._id = f.id_ingrediente",null);
 
         return cursor;
+    }
+
+    public ArrayList<String> getCategorias(){
+        ArrayList<String> categorias = new ArrayList<>();
+        categorias.add("favoritas");
+        categorias.add("já fiz");
+        categorias.add("quero fazer");
+
+        return categorias;
     }
 
     public Cursor getReceitasFavoritas(){
