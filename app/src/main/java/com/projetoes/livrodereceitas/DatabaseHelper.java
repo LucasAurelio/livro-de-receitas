@@ -112,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
 
-    //QUERIES
+    //QUERIES PESQUISA
     public Cursor getAlimentos() {
         Cursor cursor = ourDataBase.rawQuery("SELECT nome FROM alimento",null);
         return cursor;
@@ -173,6 +173,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursor;
     }
 
+    // QUERY VIEW RECEITA
     public Cursor getReceitaSelecionada(String nomeDaReceita){
         Cursor cursor = ourDataBase.rawQuery(
                 "SELECT p.nome, f.quantidade, g.nome, p.descricao " +
@@ -184,6 +185,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursor;
     }
 
+
+    //QUERIES CATEGORIAS
     public ArrayList<String> getCategorias(){
         ArrayList<String> categorias = new ArrayList<>();
         categorias.add("favoritas");
@@ -195,33 +198,64 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public Cursor getReceitasFavoritas(){
         Cursor cursor = ourDataBase.rawQuery(
-                "SELECT nome " +
-                "FROM receita " +
-                "WHERE categoria = 'favoritas' ",null);
+                "SELECT nome_receita " +
+                "FROM receita_categorias " +
+                "WHERE favoritas = 1",null);
         return cursor;
     }
 
     public Cursor getReceitasJaFiz(){
         Cursor cursor = ourDataBase.rawQuery(
-                "SELECT nome " +
-                "FROM receita " +
-                "WHERE categoria = 'já fiz' ",null);
+                "SELECT nome_receita " +
+                "FROM receita_categorias " +
+                "WHERE ja_fiz = 1 ",null);
         return cursor;
     }
 
     public Cursor getReceitasQueroFazer(){
         Cursor cursor = ourDataBase.rawQuery(
-                "SELECT nome " +
-                "FROM receita " +
-                "WHERE categoria = 'quero fazer' ",null);
+                "SELECT nome_receita " +
+                "FROM receita_categorias " +
+                "WHERE quero_fazer = 1 ",null);
         return cursor;
     }
 
-    public void setReceitaCategoria(String ctgra, String receitaSelecionada){
+    public void setReceitaCategoria(String catgr, String nomeDaReceita){
+        if (catgr.equals("quero fazer")){
+            setReceitaQueroFazer(nomeDaReceita);
+        }else if(catgr.equals("já fiz")){
+            setReceitaJaFiz(nomeDaReceita);
+        }else{
+            setReceitaFavoritas(nomeDaReceita);
+        }
+    }
+
+    public void setReceitaQueroFazer(String receitaSelecionada){
         ourDataBase.rawQuery(
-                "UPDATE receita " +
-                "SET categoria = '" + ctgra + "' " +
-                "WHERE nome = '" + receitaSelecionada + "'",null);
+                "INSERT INTO receita_categorias(nome_receita,quero_fazer) " +
+                "VALUES ('" + receitaSelecionada + "',1)",null);
+
+        ourDataBase.rawQuery(
+                "DELETE FROM receita_categorias " +
+                        "WHERE nome_receita = '"+receitaSelecionada+"' " +
+                        "AND ja_fiz = 1",null);
+    }
+
+    public void setReceitaJaFiz(String receitaSelecionada){
+        ourDataBase.rawQuery(
+                "INSERT INTO receita_categorias(nome_receita,ja_fiz) " +
+                        "VALUES ('" + receitaSelecionada + "',1)",null);
+
+        ourDataBase.rawQuery(
+                "DELETE FROM receita_categorias " +
+                        "WHERE nome_receita = '"+receitaSelecionada+"' " +
+                        "AND quero_fazer = 1",null);
+    }
+
+    public void setReceitaFavoritas(String receitaSelecionada){
+        ourDataBase.rawQuery(
+                "INSERT INTO receita_categorias(nome_receita,favoritas) " +
+                        "VALUES ('" + receitaSelecionada + "',1",null);
     }
 
 }
