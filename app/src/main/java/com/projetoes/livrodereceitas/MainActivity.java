@@ -42,14 +42,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Bottom bar navigation menu
-        mBottomBar = BottomBar.attach(this, savedInstanceState);
-        mBottomBar.noTopOffset();
-        mBottomBar.noNavBarGoodness();
-        mBottomBar.setItems(R.menu.bottombar_menu);
-        mBottomBar.setDefaultTabPosition(0);
-        initializeBottomNavigation();
-
 
         initialFragment = InitialFragment.getInstance();
         searchFragment = SearchFragment.getInstance();
@@ -57,9 +49,6 @@ public class MainActivity extends AppCompatActivity {
         viewRecipeFragment = ViewRecipeFragment.getInstance();
 
         resultRecipeList = new ArrayList<String>();
-
-
-        changeFragment(initialFragment, InitialFragment.TAG ,true);
 
         ourDB = new DatabaseHelper(this);
         try{
@@ -73,6 +62,16 @@ public class MainActivity extends AppCompatActivity {
             throw sqle;
         }
 
+        // Bottom bar navigation menu
+        mBottomBar = BottomBar.attach(this, savedInstanceState);
+        mBottomBar.noTopOffset();
+        mBottomBar.noNavBarGoodness();
+        mBottomBar.setItems(R.menu.bottombar_menu);
+        mBottomBar.setDefaultTabPosition(0);
+        initializeBottomNavigation();
+
+        changeBottomBarItem(InitialFragment.TAG );
+
     }
 
     @Override
@@ -82,18 +81,6 @@ public class MainActivity extends AppCompatActivity {
         // lose the current tab on orientation change.
         mBottomBar.onSaveInstanceState(outState);
     }
-
-    public void onSelectButtonPressed(View view) {
-        //changeFragment(searchFragment, InitialFragment.TAG ,true);
-
-
-        changeBottomBarItem(SearchFragment.TAG);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
-                searchFragment, SearchFragment.TAG).addToBackStack(SearchFragment.TAG).commit();
-
-        Toast.makeText(getBaseContext(), "I choose you!", Toast.LENGTH_SHORT).show();
-    }
-
 
     /**
      * Navigate between fragments when clicking the bottom bar navigation
@@ -106,9 +93,14 @@ public class MainActivity extends AppCompatActivity {
             public void onMenuTabSelected(@IdRes int menuItemId) {
                 switch (menuItemId) {
                     case (R.id.homeItem) :
-                        //changeFragment(initialFragment,InitialFragment.TAG ,true);
+                        /* Tem que clicar duas vezes pra poder ir pra tela inicial
+                        o app faz da seguinte forma:
+                        selected frag: SEARCH_FRAGMENT selected tab: 0
+                        reselected frag: INITIAL_FRAGMENT reselected tab: 0
+                        */
+                        changeFragment(initialFragment,InitialFragment.TAG, true);
                     case (R.id.searchItem):
-                        //changeFragment(searchFragment, SearchFragment.TAG,true);
+                        changeFragment(searchFragment, SearchFragment.TAG, true);
                         break;
                     case (R.id.favoriteItem):
                         Toast.makeText(getBaseContext(), "My precious", Toast.LENGTH_SHORT).show();
@@ -127,10 +119,10 @@ public class MainActivity extends AppCompatActivity {
             public void onMenuTabReSelected(@IdRes int menuItemId) {
                 switch (menuItemId) {
                     case (R.id.homeItem):
-                        //changeFragment(initialFragment, InitialFragment.TAG,false);
+                        changeFragment(initialFragment, InitialFragment.TAG, false);
                         break;
                     case (R.id.searchItem):
-                        //changeFragment(searchFragment, SearchFragment.TAG,false);
+                        changeFragment(searchFragment, SearchFragment.TAG, false);
                         break;
                     case (R.id.favoriteItem):
                         Toast.makeText(getBaseContext(), "My precious", Toast.LENGTH_SHORT).show();
@@ -160,19 +152,16 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    // TA DANDO ERRO java.lang.RuntimeException: Unable to start activity ComponentInfo
     /**
      * Change the current displayed fragment by a new one.
      * - if the fragment is in backstack, it will pop it
      * - if the fragment is already displayed (trying to change the fragment with the same), it will not do anything
      *
-     * @param frag            the new fragment to display
-     * @param saveInBackstack if we want the fragment to be in backstack
+     *  frag            the new fragment to display
+     *  saveInBackstack if we want the fragment to be in backstack
      */
-
+/*
     private void changeFragment(Fragment frag, String tag, boolean saveInBackstack) {
-
-
         try {
             FragmentManager manager = getSupportFragmentManager();
             boolean fragmentPopped = manager.popBackStackImmediate(tag, 0);
@@ -198,6 +187,30 @@ public class MainActivity extends AppCompatActivity {
         } catch (IllegalStateException exception) {
             Log.w(TAG, "Unable to commit fragment, could be activity as been killed in background. " + exception.toString());
         }
+    }
+*/
+
+
+    private void changeFragment(Fragment frag, String tag, boolean saveInBackstack){
+        try {
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction transaction=  manager.beginTransaction().replace(R.id.content_layout,
+                    frag, tag);
+
+            if (saveInBackstack) {
+                Log.d(TAG, "Change Fragment: addToBackTack " + tag);
+                Log.d(TAG, "selected frag: " + tag + " selected tab: " + mBottomBar.getCurrentTabPosition());
+                transaction.addToBackStack(tag).commit();
+
+            } else {
+                Log.d(TAG, "reselected frag: " + tag + " reselected tab: " + mBottomBar.getCurrentTabPosition());
+                transaction.commit();
+            }
+
+        } catch (IllegalStateException exception) {
+            Log.w(TAG, "Unable to commit fragment, could be activity as been killed in background. " + exception.toString());
+        }
+
     }
 
 
@@ -328,15 +341,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onSearchButtonPressed(View view){
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
-                listRecipesFragment, ListRecipesFragment.TAG).addToBackStack(ListRecipesFragment.TAG).commit();
-
+        changeBottomBarItem(ListRecipesFragment.TAG);
     }
     public void onRecipePressed(View view){
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
-                viewRecipeFragment, ViewRecipeFragment.TAG).addToBackStack(ViewRecipeFragment.TAG).commit();
-
+        changeBottomBarItem(ViewRecipeFragment.TAG);
     }
+
+    public void onSelectButtonPressed(View view) {
+        changeBottomBarItem(SearchFragment.TAG);
+        Toast.makeText(getBaseContext(), "I choose you!", Toast.LENGTH_SHORT).show();
+    }
+
 
     public ArrayList<String> getResultRecipeList(){
         return resultRecipeList;
@@ -344,6 +359,5 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList getViewRecipe(){
         return viewRecipe;
     }
-
 
 }
