@@ -116,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
                         changeFragment(searchFragment, SearchFragment.TAG,true);
                         break;
                     case (R.id.favoriteItem):
-                        Toast.makeText(getBaseContext(), "My precious", Toast.LENGTH_SHORT).show();
                         changeFragment(recipeBookFragment, RecipeBookFragment.TAG, true);
                         break;
                     case (R.id.helpItem):
@@ -139,8 +138,7 @@ public class MainActivity extends AppCompatActivity {
                         changeFragment(searchFragment, SearchFragment.TAG,false);
                         break;
                     case (R.id.favoriteItem):
-                        Toast.makeText(getBaseContext(), "My precious", Toast.LENGTH_SHORT).show();
-                        changeFragment(recipeBookFragment, RecipeBookFragment.TAG, true);
+                        changeFragment(recipeBookFragment, RecipeBookFragment.TAG, false);
                         break;
                     case (R.id.helpItem):
                         Toast.makeText(getBaseContext(), "Help! I need somebody...", Toast.LENGTH_SHORT).show();

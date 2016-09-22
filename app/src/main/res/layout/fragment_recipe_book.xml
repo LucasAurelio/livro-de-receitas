@@ -29,7 +29,7 @@
             android:text="@string/book_quero_fazer"
             android:layout_alignParentTop="true"
             android:layout_weight="1"
-            android:drawableRight="@drawable/ic_wanna_do"
+            android:drawableRight="@drawable/pot"
             style="@style/Base.Widget.AppCompat.Button.Colored"
             android:textSize="30dp"
             />
@@ -40,7 +40,7 @@
             android:text="@string/book_ja_fiz"
             android:layout_alignParentTop="true"
             android:layout_weight="1"
-            android:drawableRight="@drawable/ic_done"
+            android:drawableRight="@drawable/cooker"
             style="@style/Base.Widget.AppCompat.Button.Colored"
             android:textSize="30dp"
             />
