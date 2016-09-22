@@ -8,4 +8,7 @@
     <string name="help_text_menu">Ajuda</string>
     <string name="select_btn_text">Selecionar \n Ingredientes</string>
     <string name="home_text_menu">Início</string>
+    <string name="book_favoritas">Favoritas</string>
+    <string name="book_quero_fazer">Quero fazer</string>
+    <string name="book_ja_fiz">Já fiz</string>
 </resources>

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.projetoes.livrodereceitas.fragments.InitialFragment;
+import com.projetoes.livrodereceitas.fragments.RecipeBookFragment;
 import com.projetoes.livrodereceitas.fragments.SearchFragment;
 import com.projetoes.livrodereceitas.fragments.ListRecipesFragment;
 import com.projetoes.livrodereceitas.fragments.ViewRecipeFragment;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchFragment searchFragment;
     private ListRecipesFragment listRecipesFragment;
     private ViewRecipeFragment viewRecipeFragment;
+    private RecipeBookFragment recipeBookFragment;
     private ArrayList<String> resultRecipeList;
     private ArrayList viewRecipe;
 
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         searchFragment = SearchFragment.getInstance();
         listRecipesFragment = ListRecipesFragment.getInstance();
         viewRecipeFragment = ViewRecipeFragment.getInstance();
+        recipeBookFragment = RecipeBookFragment.getInstance();
 
 
         // Bottom bar navigation menu
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case (R.id.favoriteItem):
                         Toast.makeText(getBaseContext(), "My precious", Toast.LENGTH_SHORT).show();
+                        changeFragment(recipeBookFragment, RecipeBookFragment.TAG, true);
                         break;
                     case (R.id.helpItem):
                         Toast.makeText(getBaseContext(), "Help! I need somebody...", Toast.LENGTH_SHORT).show();
@@ -136,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case (R.id.favoriteItem):
                         Toast.makeText(getBaseContext(), "My precious", Toast.LENGTH_SHORT).show();
+                        changeFragment(recipeBookFragment, RecipeBookFragment.TAG, true);
                         break;
                     case (R.id.helpItem):
                         Toast.makeText(getBaseContext(), "Help! I need somebody...", Toast.LENGTH_SHORT).show();

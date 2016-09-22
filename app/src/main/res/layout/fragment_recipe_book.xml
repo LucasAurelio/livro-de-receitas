@@ -1,0 +1,47 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.projetoes.livrodereceitas.fragments.RecipeBookFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/favorites_btn"
+            android:text="@string/book_favoritas"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:textSize="30dp"></Button>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/wannaDo_btn"
+            android:text="@string/book_quero_fazer"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:textSize="30dp"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/done_btn"
+            android:text="@string/book_ja_fiz"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:textSize="30dp"
+            />
+
+    </LinearLayout>
+
+</FrameLayout>
