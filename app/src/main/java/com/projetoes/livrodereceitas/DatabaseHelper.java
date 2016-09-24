@@ -230,32 +230,65 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
-    public void setReceitaQueroFazer(String receitaSelecionada){
-        ourDataBase.rawQuery(
-                "INSERT INTO receita_categorias(nome_receita,quero_fazer) " +
-                "VALUES ('" + receitaSelecionada + "',1)",null);
+    public void setReceitaFavoritas(String receitaSelecionada){
+        try{
+            ourDataBase.rawQuery(
+                    "UPDATE receita_categorias " +
+                            "SET favoritas = 1 "+
+                            "WHERE nome_receita = '"+receitaSelecionada+"'",null);
+        }catch (SQLException e){
+            ourDataBase.rawQuery(
+                    "INSERT INTO receita_categorias(nome_receita,quero_fazer,ja_fiz,favoritas) " +
+                            "VALUES ('" + receitaSelecionada + "',0,0,1",null);
+        }
 
-        ourDataBase.rawQuery(
-                "DELETE FROM receita_categorias " +
-                        "WHERE nome_receita = '"+receitaSelecionada+"' " +
-                        "AND ja_fiz = 1",null);
+        checkForReceitaSemCategoria();
+    }
+
+    public void setReceitaQueroFazer(String receitaSelecionada){
+        try{
+            ourDataBase.rawQuery(
+                    "UPDATE receita_categorias " +
+                            "SET quero_fazer = 1 "+
+                            "WHERE nome_receita = '"+receitaSelecionada+"'",null);
+        }catch (SQLException e){
+            ourDataBase.rawQuery(
+                    "INSERT INTO receita_categorias(nome_receita,quero_fazer,ja_fiz,favoritas) " +
+                            "VALUES ('" + receitaSelecionada + "',1,0,0",null);
+        }
+
+        checkForReceitaSemCategoria();
     }
 
     public void setReceitaJaFiz(String receitaSelecionada){
-        ourDataBase.rawQuery(
-                "INSERT INTO receita_categorias(nome_receita,ja_fiz) " +
-                        "VALUES ('" + receitaSelecionada + "',1)",null);
+        try{
+            ourDataBase.rawQuery(
+                    "UPDATE receita_categorias " +
+                            "SET ja_fiz = 1 "+
+                            "WHERE nome_receita = '"+receitaSelecionada+"'",null);
+        }catch (SQLException e){
+            ourDataBase.rawQuery(
+                    "INSERT INTO receita_categorias(nome_receita,quero_fazer,ja_fiz,favoritas) " +
+                            "VALUES ('" + receitaSelecionada + "',0,1,0",null);
+        }
 
+        checkForReceitaSemCategoria();
+    }
+
+    public void checkForReceitaSemCategoria(){
         ourDataBase.rawQuery(
                 "DELETE FROM receita_categorias " +
-                        "WHERE nome_receita = '"+receitaSelecionada+"' " +
-                        "AND quero_fazer = 1",null);
+                        "WHERE quero_fazer = 0 " +
+                        "AND ja_fiz = 0 " +
+                        "AND favoritas = 0 ",null);
     }
 
-    public void setReceitaFavoritas(String receitaSelecionada){
-        ourDataBase.rawQuery(
-                "INSERT INTO receita_categorias(nome_receita,favoritas) " +
-                        "VALUES ('" + receitaSelecionada + "',1",null);
-    }
+    public Cursor receitaCategorias(String receitaSelecionada) {
+        Cursor cursor = ourDataBase.rawQuery(
+                "SELECT quero_fazer, ja_fiz, favoritas " +
+                        "FROM receita_categorias " +
+                        "WHERE nome_receita = '"+receitaSelecionada+"'", null);
 
+        return  cursor;
+    }
 }

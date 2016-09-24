@@ -320,9 +320,28 @@ public class MainActivity extends AppCompatActivity {
     public void categorizarReceita(String catgSelecionada,String recipe){
         ourDB.setReceitaCategoria(catgSelecionada,recipe);
     }
-
     public ArrayList<String> getCategoriasReceitas(){
         return ourDB.getCategorias();
+    }
+
+    public ArrayList getCategoriasPorReceita(String receitaSelecionada){
+        Cursor categorias = ourDB.receitaCategorias(receitaSelecionada);
+        ArrayList receitaCategorias = new ArrayList<>();
+
+        if (!(categorias.getCount()==0)){
+            categorias.moveToFirst();
+            if (!(categorias.getString(0).equals("1"))){
+                receitaCategorias.add("Quero fazer");
+            }
+            if (!(categorias.getString(1).equals("1"))){
+                receitaCategorias.add("Já fiz");
+            }
+            if (!(categorias.getString(2).equals("1"))){
+                receitaCategorias.add("Favorita");
+            }
+        }
+
+        return receitaCategorias;
     }
 
 
