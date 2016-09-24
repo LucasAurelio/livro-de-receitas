@@ -11,4 +11,28 @@
     <string name="book_favoritas">Favoritas</string>
     <string name="book_quero_fazer">Quero fazer</string>
     <string name="book_ja_fiz">Já fiz</string>
+    <string name="help_about"> Livro de Receitas é um aplicativo para busca de receitas um pouco
+        diferente dos que utilizamos normalmente. Aqui a busca é feita através da seleção de ingredintes e
+        categorias. Então, basta você selecionar e adicionar os ingredientes que possui em casa, o tipo de
+    receita que deseja preparar e clicar no botão buscar. O resultado é uma lista de receita para
+    visulização.</string>
+    <string name="help_list">✪ Quando uma busca é feita, o resultado é classificado
+        em dois tipos: por Compatibilidade e por Similaridade.</string>
+    <string name="help_compativel">✪ Receitas compatíveis são aquelas que requerem todos os
+        ingredientes selecionados no momento da busca, podendo ter ou não outros além.</string>
+    <string name="help_similar">✪ Receitas similares são aquelas que requerem um ou mais ingredientes
+        selecionados no momento da busca, mas não todos.</string>
+    <string name="help_visualizar">✪ Uma vez realizada a pesquisa, basta selecionar uma das
+        receitas para visualizar mais detalhes sobre ingredientes, quantidades e modo de preparo.
+        Ao abrir uma receita, além de visualizá-la, você pode salvá-la em sua coleção de receitas.
+    Para salvar em alguma das categorias basta clicar nos ícones que se encontram no topo
+    da tela de cada receita. Eles tem os seguintes significados:</string>
+    <string name="help_favorita">Favoritas - Receitas que você mais gosta ou quer acessar
+        rapidamente sem precisar pesquisar.</string>
+    <string name="help_quero_fazer">Quero fazer - Receitas que você quer marcar porque deseja preparar
+        em algum momento no futuro.</string>
+    <string name="help_ja_fiz">Já fiz - Receitas que você já conseguiu preparar e deseja manter um
+        registro disso.</string>
+    <string name="help_minhas_receitas">✪ Você pode acessar facilmente sua coleção de receitas salvas
+        clicando no botão "Minhas receitas" que se encontra da barra de navegação.</string>
 </resources>
