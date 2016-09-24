@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.projetoes.livrodereceitas.fragments.HelpFragment;
 import com.projetoes.livrodereceitas.fragments.InitialFragment;
 import com.projetoes.livrodereceitas.fragments.RecipeBookFragment;
 import com.projetoes.livrodereceitas.fragments.SearchFragment;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ListRecipesFragment listRecipesFragment;
     private ViewRecipeFragment viewRecipeFragment;
     private RecipeBookFragment recipeBookFragment;
+    private HelpFragment helpFragment;
     private ArrayList<String> resultRecipeList;
     private ArrayList viewRecipe;
 
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         listRecipesFragment = ListRecipesFragment.getInstance();
         viewRecipeFragment = ViewRecipeFragment.getInstance();
         recipeBookFragment = RecipeBookFragment.getInstance();
+        helpFragment = HelpFragment.getInstance();
 
 
         // Bottom bar navigation menu
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                         changeFragment(recipeBookFragment, RecipeBookFragment.TAG, true);
                         break;
                     case (R.id.helpItem):
-                        Toast.makeText(getBaseContext(), "Help! I need somebody...", Toast.LENGTH_SHORT).show();
+                        changeFragment(helpFragment, HelpFragment.TAG, true);
                         break;
                     default:
                         break;
@@ -141,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                         changeFragment(recipeBookFragment, RecipeBookFragment.TAG, false);
                         break;
                     case (R.id.helpItem):
-                        Toast.makeText(getBaseContext(), "Help! I need somebody...", Toast.LENGTH_SHORT).show();
+                        changeFragment(helpFragment, HelpFragment.TAG, false);
                         break;
                     default:
                         break;
