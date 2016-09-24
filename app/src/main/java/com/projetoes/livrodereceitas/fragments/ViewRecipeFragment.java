@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -17,7 +16,6 @@ import com.projetoes.livrodereceitas.IngredientsRecipeViewAdapter;
 import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
 import com.projetoes.livrodereceitas.Recipe;
-import com.projetoes.livrodereceitas.RecipeListViewAdapter;
 
 import java.util.ArrayList;
 
@@ -60,7 +58,8 @@ public class ViewRecipeFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_view_recipe, container, false);
         final ArrayList myRecipe = ((MainActivity) getActivity()).getViewRecipe();
 
-        recipe = ((MainActivity) getActivity()).getCategoriesByRecipe((String) myRecipe.get(0));
+        recipe = new Recipe((String) myRecipe.get(0));
+        recipe = ((MainActivity) getActivity()).getCategoriesByRecipe(recipe);
         recipe.setDescription((String) myRecipe.get(2));
         recipe.setIngredients((ArrayList) myRecipe.get(1));
 
@@ -77,35 +76,79 @@ public class ViewRecipeFragment extends Fragment {
         ingredientsListView.setAdapter(new IngredientsRecipeViewAdapter(getActivity(), recipeIngredients));
         ListUtils.setDynamicHeight(ingredientsListView);
 
-
-        ImageButton favoriteBtn = (ImageButton) view.findViewById(R.id.favorite_btn);
-
-        /*if (!isFavorite){
-            favoriteBtn.setBackgroundColor(Color.GRAY);
-        } else {
-            favoriteBtn.setBackgroundColor(Color.RED);
-        }
-
-        favoriteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isFavorite = !isFavorite;
-                Log.d(TAG, "É favorita?: " + isFavorite);
-                if (!isFavorite){
-                    v.setBackgroundColor(Color.GRAY);
-                } else {
-                    v.setBackgroundColor(Color.RED);
-                }
-
-            }
-        }); */
-
-
-        ImageButton madeBtn = (ImageButton) view.findViewById(R.id.made_btn);
-
-        ImageButton wantBtn = (ImageButton) view.findViewById(R.id.want_btn);
+        initializeCategories(view, R.string.categorie_favorite, R.drawable.ic_favorite_white, R.drawable.ic_favorite);
+        initializeCategories(view, R.string.categorie_wannaDo, R.drawable.pot, R.drawable.pot);
+        initializeCategories(view, R.string.categorie_done, R.drawable.cooker, R.drawable.cooker);
 
         return view;
+    }
+
+    private void initializeCategories(final View view, final int stringId, final int colorTrue, final int colorFalse){
+        ImageButton btn = (ImageButton) view.findViewById(R.id.favorite_recipe_btn);
+        boolean initialStatus = false;
+
+        if (stringId == R.string.categorie_favorite){
+            btn = (ImageButton) view.findViewById(R.id.favorite_recipe_btn);
+
+        } else if (stringId == R.string.categorie_wannaDo){
+            btn = (ImageButton) view.findViewById(R.id.wannaDo_recipe_btn);
+
+        } else if (stringId == R.string.categorie_done) {
+            btn = (ImageButton) view.findViewById(R.id.done_recipe_btn);
+
+        }
+
+        setImgBtn(btn, initialStatus, colorTrue, colorFalse);
+
+        try {
+            final ImageButton finalBtn = btn;
+
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Only to check before change
+                    Recipe categories = ((MainActivity) getActivity()).getCategoriesByRecipe(recipe);
+                    Log.d(TAG, categories.toString());
+                    //
+                    boolean status = false;
+
+                    if (stringId == R.string.categorie_favorite) {
+                        recipe.setIsFavorite(!recipe.isFavorite());
+                        status = recipe.isFavorite();
+
+                    } else if (stringId == R.string.categorie_wannaDo) {
+                        recipe.setIsWannaDo(!recipe.isWannaDo());
+                        status = recipe.isWannaDo();
+
+                    } else if (stringId == R.string.categorie_done) {
+                        recipe.setIsDone(!recipe.isDone());
+                        status = recipe.isDone();
+
+                    }
+
+                    setImgBtn(finalBtn, status, colorTrue, colorFalse);
+
+                    ((MainActivity) getActivity()).categorizarReceita(stringId, recipe.getName(), status);
+
+                    //only to check change
+                    categories = ((MainActivity) getActivity()).getCategoriesByRecipe(recipe);
+                    Log.d(TAG, categories.toString());
+
+                }
+            });
+
+        } catch (Exception e){
+            Log.e(TAG, String.valueOf(e));
+        }
+
+    }
+
+    private void setImgBtn(ImageButton btn, Boolean status, int colorTrue, int colorFalse){
+        if (status){
+            btn.setImageResource(colorTrue);
+        } else {
+            btn.setImageResource(colorFalse);
+        }
     }
 
     public static class ListUtils {

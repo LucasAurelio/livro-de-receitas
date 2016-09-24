@@ -9,35 +9,35 @@ public class Recipe {
     private ArrayList<String> ingredients;
     private String description;
     private boolean isFavorite;
-    private boolean isMade;
-    private boolean isWanna;
+    private boolean isDone;
+    private boolean isWannaDo;
 
     public Recipe(String name){
         this.name = name;
         this.ingredients = new ArrayList<>();
         this.description = "";
         this.isFavorite = false;
-        this.isMade = false;
-        this.isWanna = false;
+        this.isDone = false;
+        this.isWannaDo = false;
     }
 
-    public Recipe(String name, boolean isFavorite, boolean isMade, boolean isWanna){
+    public Recipe(String name, boolean isFavorite, boolean isDone, boolean isWannaDo){
         this.name = name;
         this.ingredients = new ArrayList<>();
         this.description = "";
         this.isFavorite = isFavorite;
-        this.isMade = isMade;
-        this.isWanna = isWanna;
+        this.isDone = isDone;
+        this.isWannaDo = isWannaDo;
     }
 
     public Recipe(String name, ArrayList<String> ingredients, String description, boolean isFavorite,
-                       boolean isMade, boolean isWanna){
+                       boolean isDone, boolean isWannaDo){
         this.name = name;
         this.ingredients = ingredients;
         this.description = description;
         this.isFavorite = isFavorite;
-        this.isMade = isMade;
-        this.isWanna = isWanna;
+        this.isDone = isDone;
+        this.isWannaDo = isWannaDo;
     }
 
     public String getName() {
@@ -72,20 +72,25 @@ public class Recipe {
         this.isFavorite = isFavorite;
     }
 
-    public boolean isMade() {
-        return isMade;
+    public boolean isDone() {
+        return isDone;
     }
 
-    public void setIsMade(boolean isMade) {
-        this.isMade = isMade;
+    public void setIsDone(boolean isDone) {
+        this.isDone = isDone;
     }
 
-    public boolean isWanna() {
-        return isWanna;
+    public boolean isWannaDo() {
+        return isWannaDo;
     }
 
-    public void setIsWanna(boolean isWanna) {
-        this.isWanna = isWanna;
+    public void setIsWannaDo(boolean isWannaDo) {
+        this.isWannaDo = isWannaDo;
     }
 
+    @Override
+    public String toString() {
+        return "Receita: " + name + ", favorita: " + String.valueOf(isFavorite) +
+                ", Quero fazer: " + String.valueOf(isWannaDo) + ", Já fiz: " + String.valueOf(isDone);
+    }
 }

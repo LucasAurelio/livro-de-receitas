@@ -3,12 +3,26 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Menu -->
     <string name="search_text_menu">Pesquisar</string>
     <string name="favorite_text_menu">Minhas receitas</string>
     <string name="help_text_menu">Ajuda</string>
     <string name="select_btn_text">Selecionar \n Ingredientes</string>
     <string name="home_text_menu">Início</string>
+
+    <!-- book-->
     <string name="book_favoritas">Favoritas</string>
     <string name="book_quero_fazer">Quero fazer</string>
     <string name="book_ja_fiz">Já fiz</string>
+
+    <!-- categories -->
+    <string name="categorie_favorite">favorite</string>
+    <string name="categorie_done">done</string>
+    <string name="categorie_wannaDo">wannaDo</string>
+
+    <!--btn text-->
+
+    <string name="favorite">Favorita</string>
+    <string name="done">Feita</string>
+    <string name="wannaDo">Quero fazer</string>
 </resources>

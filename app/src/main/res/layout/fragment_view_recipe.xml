@@ -31,27 +31,68 @@
                 android:id="@+id/categories_layout"
                 android:layout_margin="5dp">
 
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_favorite"
-                    android:layout_marginRight="10dp"
-                    android:id="@+id/favorite_btn"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp">
 
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_favorite"
-                    android:layout_marginRight="10dp"
-                    android:id="@+id/made_btn"/>
+                    <ImageButton
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/ic_favorite"
+                        android:id="@+id/favorite_recipe_btn"  />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/favorite"
+                        android:layout_below="@+id/favorite_recipe_btn"/>
+
+                </RelativeLayout>
 
 
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/ic_favorite"
-                    android:id="@+id/want_btn"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp">
 
+                    <ImageButton
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/pot"
+                        android:id="@+id/wannaDo_recipe_btn"
+                        android:layout_centerHorizontal="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/wannaDo"
+                        android:layout_below="@+id/wannaDo_recipe_btn"/>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp">
+
+                    <ImageButton
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/cooker"
+                        android:id="@+id/done_recipe_btn"
+                        android:layout_centerHorizontal="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/done"
+                        android:layout_below="@+id/done_recipe_btn"/>
+
+
+                </RelativeLayout>
 
             </LinearLayout>
 

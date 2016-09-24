@@ -220,26 +220,27 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return cursor;
     }
 
-    public void setReceitaCategoria(String catgr, String nomeDaReceita){
-        if (catgr.equals("quero fazer")){
+    public void setReceitaCategoria(int catgr, String nomeDaReceita, byte status){
+        if (catgr == (R.string.categorie_wannaDo)){
             setReceitaQueroFazer(nomeDaReceita);
-        }else if(catgr.equals("já fiz")){
+        }else if(catgr == (R.string.categorie_done)){
             setReceitaJaFiz(nomeDaReceita);
-        }else{
-            setReceitaFavoritas(nomeDaReceita);
+        }else if(catgr == (R.string.categorie_favorite)){
+            setReceitaFavoritas(nomeDaReceita, status);
         }
     }
 
-    public void setReceitaFavoritas(String receitaSelecionada){
+    public void setReceitaFavoritas(String receitaSelecionada, byte status){
+        ourDataBase = this.getWritableDatabase();
         try{
             ourDataBase.rawQuery(
                     "UPDATE receita_categorias " +
-                            "SET favoritas = 1 "+
+                            "SET favoritas = " + String.valueOf(status)+
                             "WHERE nome_receita = '"+receitaSelecionada+"'",null);
         }catch (SQLException e){
             ourDataBase.rawQuery(
                     "INSERT INTO receita_categorias(nome_receita,quero_fazer,ja_fiz,favoritas) " +
-                            "VALUES ('" + receitaSelecionada + "',0,0,1",null);
+                            "VALUES ('" + receitaSelecionada + "',0,0,"+ String.valueOf(status)+")",null);
         }
 
         checkForReceitaSemCategoria();

@@ -317,8 +317,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void categorizarReceita(String catgSelecionada,String recipe){
-        ourDB.setReceitaCategoria(catgSelecionada,recipe);
+    public void categorizarReceita(int catgSelecionada,String recipe, boolean status){
+        byte byteStatus = 0;
+        if (status){
+            byteStatus = 1;
+        }
+        ourDB.setReceitaCategoria(catgSelecionada,recipe,byteStatus);
     }
     public ArrayList<String> getCategoriasReceitas(){
         return ourDB.getCategorias();
@@ -344,14 +348,13 @@ public class MainActivity extends AppCompatActivity {
         return receitaCategorias;
     }
 
-    public Recipe getCategoriesByRecipe(String receitaSelecionada){
-        Recipe recipe = new Recipe(receitaSelecionada);
-        ArrayList categories = getCategoriasPorReceita(receitaSelecionada);
+    public Recipe getCategoriesByRecipe(Recipe recipe){
+        ArrayList categories = getCategoriasPorReceita(recipe.getName());
 
         if (categories.contains("Quero fazer")){
-            recipe.setIsWanna(true);
+            recipe.setIsWannaDo(true);
         } if (categories.contains("Já fiz")){
-            recipe.setIsMade(true);
+            recipe.setIsDone(true);
         } if (categories.contains("Favorita")){
             recipe.setIsFavorite(true);
         }
