@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSelectButtonPressed(View view) {
-        changeFragment(searchFragment, InitialFragment.TAG ,true);
+        changeFragment(searchFragment, InitialFragment.TAG, true);
 
 
         changeBottomBarItem(SearchFragment.TAG);
@@ -110,10 +110,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
                 switch (menuItemId) {
-                    case (R.id.homeItem) :
-                        changeFragment(initialFragment,InitialFragment.TAG ,true);
+                    case (R.id.homeItem):
+                        changeFragment(initialFragment, InitialFragment.TAG, true);
                     case (R.id.searchItem):
-                        changeFragment(searchFragment, SearchFragment.TAG,true);
+                        changeFragment(searchFragment, SearchFragment.TAG, true);
                         break;
                     case (R.id.favoriteItem):
                         changeFragment(recipeBookFragment, RecipeBookFragment.TAG, true);
@@ -132,10 +132,10 @@ public class MainActivity extends AppCompatActivity {
             public void onMenuTabReSelected(@IdRes int menuItemId) {
                 switch (menuItemId) {
                     case (R.id.homeItem):
-                        changeFragment(initialFragment, InitialFragment.TAG,false);
+                        changeFragment(initialFragment, InitialFragment.TAG, false);
                         break;
                     case (R.id.searchItem):
-                        changeFragment(searchFragment, SearchFragment.TAG,false);
+                        changeFragment(searchFragment, SearchFragment.TAG, false);
                         break;
                     case (R.id.favoriteItem):
                         changeFragment(recipeBookFragment, RecipeBookFragment.TAG, false);
@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         if (listaFiltros.isEmpty()){
             listaFiltros.add("");
         }
-        Cursor receitasCompativeis = ourDB.getReceitasPorCompatibilidade(listaIngredientes,listaFiltros);
+        Cursor receitasCompativeis = ourDB.getReceitasPorCompatibilidade(listaIngredientes, listaFiltros);
         ArrayList<String> allReceitasCompativeis = new ArrayList<>();
         receitasCompativeis.moveToFirst();
         while(!receitasCompativeis.isAfterLast()){
@@ -324,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
         return ourDB.getCategorias();
     }
 
-    public ArrayList getCategoriasPorReceita(String receitaSelecionada){
+    private ArrayList getCategoriasPorReceita(String receitaSelecionada){
         Cursor categorias = ourDB.receitaCategorias(receitaSelecionada);
         ArrayList receitaCategorias = new ArrayList<>();
 
@@ -342,6 +342,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return receitaCategorias;
+    }
+
+    public Recipe getCategoriesByRecipe(String receitaSelecionada){
+        Recipe recipe = new Recipe(receitaSelecionada);
+        ArrayList categories = getCategoriasPorReceita(receitaSelecionada);
+
+        if (categories.contains("Quero fazer")){
+            recipe.setIsWanna(true);
+        } if (categories.contains("Já fiz")){
+            recipe.setIsMade(true);
+        } if (categories.contains("Favorita")){
+            recipe.setIsFavorite(true);
+        }
+        return recipe;
     }
 
 

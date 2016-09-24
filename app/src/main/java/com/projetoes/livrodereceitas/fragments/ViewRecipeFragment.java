@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.projetoes.livrodereceitas.IngredientsRecipeViewAdapter;
 import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
+import com.projetoes.livrodereceitas.Recipe;
 import com.projetoes.livrodereceitas.RecipeListViewAdapter;
 
 import java.util.ArrayList;
@@ -24,9 +25,7 @@ public class ViewRecipeFragment extends Fragment {
 
     private static ViewRecipeFragment fragment;
     public static final String TAG = "VIEW_RECIPE_FRAGMENT";
-    private boolean isFavorite = true;
-    private boolean isDone = false;
-    private boolean isWant = true;
+    private Recipe recipe;
 
     public ViewRecipeFragment() {
         // Required empty public constructor
@@ -61,22 +60,27 @@ public class ViewRecipeFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_view_recipe, container, false);
         final ArrayList myRecipe = ((MainActivity) getActivity()).getViewRecipe();
 
+        recipe = ((MainActivity) getActivity()).getCategoriesByRecipe((String) myRecipe.get(0));
+        recipe.setDescription((String) myRecipe.get(2));
+        recipe.setIngredients((ArrayList) myRecipe.get(1));
+
         TextView recipeName = (TextView) view.findViewById(R.id.view_recipe_name);
         recipeName.setText((String) myRecipe.get(0));
 
         TextView recipeInstructions = (TextView) view.findViewById(R.id.view_recipe_instruction);
-        recipeInstructions.setText((String) myRecipe.get(2));
+        recipeInstructions.setText(recipe.getDescription());
 
-        final ArrayList recipeIngredients = (ArrayList) myRecipe.get(1);
+        final ArrayList recipeIngredients = recipe.getIngredients();
 
         final ListView ingredientsListView = (ListView) view.findViewById(R.id.view_recipe_ingredients_list);
 
         ingredientsListView.setAdapter(new IngredientsRecipeViewAdapter(getActivity(), recipeIngredients));
-        ListUtils.setDynamicHeight(ingredientsListView );
+        ListUtils.setDynamicHeight(ingredientsListView);
+
 
         ImageButton favoriteBtn = (ImageButton) view.findViewById(R.id.favorite_btn);
 
-        if (!isFavorite){
+        /*if (!isFavorite){
             favoriteBtn.setBackgroundColor(Color.GRAY);
         } else {
             favoriteBtn.setBackgroundColor(Color.RED);
@@ -94,7 +98,7 @@ public class ViewRecipeFragment extends Fragment {
                 }
 
             }
-        });
+        }); */
 
 
         ImageButton madeBtn = (ImageButton) view.findViewById(R.id.made_btn);
@@ -119,7 +123,7 @@ public class ViewRecipeFragment extends Fragment {
                 height += listItem.getMeasuredHeight();
             }
             ViewGroup.LayoutParams params = mListView.getLayoutParams();
-            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
+            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount()));
             mListView.setLayoutParams(params);
             mListView.requestLayout();
         }
