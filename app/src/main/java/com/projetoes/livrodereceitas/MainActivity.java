@@ -22,6 +22,7 @@ import com.projetoes.livrodereceitas.fragments.ListRecipeCategoryFragment;
 import com.projetoes.livrodereceitas.fragments.RecipeBookFragment;
 import com.projetoes.livrodereceitas.fragments.SearchFragment;
 import com.projetoes.livrodereceitas.fragments.ListRecipesFragment;
+import com.projetoes.livrodereceitas.fragments.TypeSearchFragment;
 import com.projetoes.livrodereceitas.fragments.ViewRecipeFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -40,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
     private RecipeBookFragment recipeBookFragment;
     private HelpFragment helpFragment;
     private ListRecipeCategoryFragment listRecipeCategoryFragment;
+    private TypeSearchFragment typeSearchFragment;
 
     private ArrayList<String> resultRecipeList;
+    private ArrayList<String> resultRecipeListSimilar;
     private ArrayList viewRecipe;
 
     public static final String TAG = "MAIN_ACTIVITY";
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         recipeBookFragment = RecipeBookFragment.getInstance();
         helpFragment = HelpFragment.getInstance();
         listRecipeCategoryFragment = ListRecipeCategoryFragment.getInstance();
+        typeSearchFragment = TypeSearchFragment.getInstance();
 
         // Bottom bar navigation menu
         mBottomBar = BottomBar.attach(this, savedInstanceState);
@@ -73,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         initializeBottomNavigation();
 
         resultRecipeList = new ArrayList<String>();
+        resultRecipeListSimilar = new ArrayList<String>();
 
         changeFragment(initialFragment, InitialFragment.TAG, true);
 
@@ -263,6 +268,27 @@ public class MainActivity extends AppCompatActivity {
         receitasCompativeis.close();
         return allReceitasCompativeis;
     }
+
+    // View resultados de busca
+    public ArrayList viewReceitasSimilares(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
+        if (listaFiltros.isEmpty()){
+            listaFiltros.add("");
+        }
+        Cursor receitasSimilares = ourDB.getReceitasPorSimilaridade(listaIngredientes, listaFiltros);
+        ArrayList<String> allReceitasSimilares = new ArrayList<>();
+        receitasSimilares.moveToFirst();
+        while(!receitasSimilares.isAfterLast()){
+            //RecipeSearch recipeSearch = new RecipeSearch(receitasCompativeis.getString(0),listaIngredientes.size(), receitasCompativeis.getInt(2));
+            allReceitasSimilares.add(receitasSimilares.getString(0));
+            receitasSimilares.moveToNext();
+        }
+
+        resultRecipeListSimilar = allReceitasSimilares;
+        receitasSimilares.close();
+        return allReceitasSimilares;
+    }
+
+
     public ArrayList viewReceitaSelecionada(String nomeSelecionado){
         Cursor receitaSelecionada = ourDB.getReceitaSelecionada(nomeSelecionado);
         ArrayList aReceita = new ArrayList<>();
@@ -395,6 +421,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onSearchButtonPressed(View view){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
+                typeSearchFragment, TypeSearchFragment.TAG).addToBackStack(TypeSearchFragment.TAG).commit();
+
+    }
+
+    public void onCompatibilidadeButtonPressed(View view){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
+                listRecipesFragment, ListRecipesFragment.TAG).addToBackStack(ListRecipesFragment.TAG).commit();
+
+    }
+
+    public void onSimilaridadeButtonPressed(View view){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
                 listRecipesFragment, ListRecipesFragment.TAG).addToBackStack(ListRecipesFragment.TAG).commit();
 

@@ -26,6 +26,14 @@
     <string name="done">Já fiz</string>
     <string name="wannaDo">Quero fazer</string>
 
+    <!--type search-->
+
+    <string name="type_search">Selecione o tipo de busca:</string>
+    <string name="similaridade">Similaridade</string>
+    <string name="compatibilidade">Compatibilidade</string>
+    <string name="hint_type_search">(Para mais informações sobre cada tipo de busca, clique no botão
+        Ajuda na barra de navegação)</string>
+
     <!-- help -->
 
     <string name="help_about"> Livro de Receitas é um aplicativo para busca de receitas um pouco

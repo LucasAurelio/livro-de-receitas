@@ -154,6 +154,8 @@ public class SearchFragment extends Fragment {
                 }
                 else {
                     ((MainActivity) getActivity()).viewReceitasCompativeis(myItems, (ArrayList<String>) selectedFilterList);
+                    ((MainActivity) getActivity()).viewReceitasSimilares(myItems, (ArrayList<String>) selectedFilterList);
+
                     ((MainActivity) getActivity()).onSearchButtonPressed(getView());
                 }
             }
