@@ -247,6 +247,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public void setReceitaQueroFazer(String receitaSelecionada){
+        ourDataBase = this.getWritableDatabase();
         try{
             ourDataBase.rawQuery(
                     "UPDATE receita_categorias " +
@@ -262,6 +263,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public void setReceitaJaFiz(String receitaSelecionada){
+        ourDataBase = this.getWritableDatabase();
+
         try{
             ourDataBase.rawQuery(
                     "UPDATE receita_categorias " +

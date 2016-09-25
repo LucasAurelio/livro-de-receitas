@@ -31,14 +31,31 @@
                     android:text="Ingredientes :"
                     style="@style/text" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/auto_complete_ingredient"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_below="@+id/text_ingredient"
-                    android:ems="15"
-                    android:text=""/>
+                    android:id="@+id/auto_complete_ingredient_container">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/auto_complete_ingredient"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:ems="15"
+                        android:text=""/>
+
+                    <Button
+                        android:id="@+id/clear_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ic_clear"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignRight="@+id/auto_complete_ingredient"
+                        android:layout_alignEnd="@+id/auto_complete_ingredient" />
+
+                </RelativeLayout>
+
 
                 <Button
                     android:layout_width="wrap_content"
@@ -48,7 +65,7 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_below="@+id/auto_complete_ingredient"/>
+                    android:layout_below="@+id/auto_complete_ingredient_container"/>
 
             </RelativeLayout>
 

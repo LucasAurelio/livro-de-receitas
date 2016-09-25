@@ -26,6 +26,8 @@
     <string name="done">Já fiz</string>
     <string name="wannaDo">Quero fazer</string>
 
+    <!-- help -->
+
     <string name="help_about"> Livro de Receitas é um aplicativo para busca de receitas um pouco
         diferente dos que utilizamos normalmente. Aqui a busca é feita através da seleção de ingredintes e
         categorias. Então, basta você selecionar e adicionar os ingredientes que possui em casa, o tipo de
