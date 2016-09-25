@@ -43,9 +43,9 @@
     visulização.</string>
     <string name="help_list">✪ Quando uma busca é feita, o resultado é classificado
         em dois tipos: por Compatibilidade e por Similaridade.</string>
-    <string name="help_compativel">✪ Receitas compatíveis são aquelas que requerem todos os
+    <string name="help_compativel">Receitas compatíveis - requerem todos os
         ingredientes selecionados no momento da busca, podendo ter ou não outros além.</string>
-    <string name="help_similar">✪ Receitas similares são aquelas que requerem um ou mais ingredientes
+    <string name="help_similar">Receitas similares - requerem um ou mais ingredientes
         selecionados no momento da busca, mas não todos.</string>
     <string name="help_visualizar">✪ Uma vez realizada a pesquisa, basta selecionar uma das
         receitas para visualizar mais detalhes sobre ingredientes, quantidades e modo de preparo.
