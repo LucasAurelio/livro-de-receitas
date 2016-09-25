@@ -1,5 +1,6 @@
 package com.projetoes.livrodereceitas.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -74,9 +75,9 @@ public class ViewRecipeFragment extends Fragment {
         ingredientsListView.setAdapter(new IngredientsRecipeViewAdapter(getActivity(), recipeIngredients));
         MainActivity.ListUtils.setDynamicHeight(ingredientsListView);
 
-        initializeCategories(view, R.string.category_favorite, R.drawable.ic_favorite_white, R.drawable.ic_favorite);
-        initializeCategories(view, R.string.category_wannaDo, R.drawable.pot, R.drawable.pot);
-        initializeCategories(view, R.string.category_done, R.drawable.cooker, R.drawable.cooker);
+        initializeCategories(view, R.string.category_favorite, R.mipmap.ic_favorite_color,R.drawable.ic_favorite);
+        initializeCategories(view, R.string.category_wannaDo, R.mipmap.ic_pot_color, R.drawable.pot_black);
+        initializeCategories(view, R.string.category_done, R.mipmap.ic_chef_color, R.drawable.cooker_black);
 
         return view;
     }

@@ -40,8 +40,8 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerHorizontal="true"
-                        android:background="@drawable/ic_favorite"
-                        android:id="@+id/favorite_recipe_btn"  />
+                        android:background="@android:color/transparent"
+                        android:id="@+id/favorite_recipe_btn" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
                     <ImageButton
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:background="@drawable/pot"
+                        android:background="@android:color/transparent"
                         android:id="@+id/wannaDo_recipe_btn"
                         android:layout_centerHorizontal="true"/>
 
@@ -81,7 +81,7 @@
                     <ImageButton
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:background="@drawable/cooker"
+                        android:background="@android:color/transparent"
                         android:id="@+id/done_recipe_btn"
                         android:layout_centerHorizontal="true"/>
 
