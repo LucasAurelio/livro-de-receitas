@@ -221,11 +221,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public void setReceitaCategoria(int catgr, String nomeDaReceita, byte status){
-        if (catgr == (R.string.categorie_wannaDo)){
+        if (catgr == (R.string.category_wannaDo)){
             setReceitaQueroFazer(nomeDaReceita);
-        }else if(catgr == (R.string.categorie_done)){
+        }else if(catgr == (R.string.category_done)){
             setReceitaJaFiz(nomeDaReceita);
-        }else if(catgr == (R.string.categorie_favorite)){
+        }else if(catgr == (R.string.category_favorite)){
             setReceitaFavoritas(nomeDaReceita, status);
         }
     }

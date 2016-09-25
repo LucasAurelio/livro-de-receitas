@@ -21,7 +21,8 @@
             android:layout_weight="1"
             android:drawableRight="@drawable/ic_favorite_white"
             style="@style/Base.Widget.AppCompat.Button.Colored"
-            android:textSize="30dp"></Button>
+            android:textSize="30dp"
+            android:onClick="onFavoritesPressed"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,6 +33,7 @@
             android:drawableRight="@drawable/pot"
             style="@style/Base.Widget.AppCompat.Button.Colored"
             android:textSize="30dp"
+            android:onClick="onWannaDoPressed"
             />
         <Button
             android:layout_width="match_parent"
@@ -43,6 +45,7 @@
             android:drawableRight="@drawable/cooker"
             style="@style/Base.Widget.AppCompat.Button.Colored"
             android:textSize="30dp"
+            android:onClick="onDonePressed"
             />
 
     </LinearLayout>

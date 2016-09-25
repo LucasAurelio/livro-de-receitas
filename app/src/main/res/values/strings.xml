@@ -16,9 +16,9 @@
     <string name="book_ja_fiz">Já fiz</string>
 
     <!-- categories -->
-    <string name="categorie_favorite">favorite</string>
-    <string name="categorie_done">done</string>
-    <string name="categorie_wannaDo">wannaDo</string>
+    <string name="category_favorite">favorite</string>
+    <string name="category_done">done</string>
+    <string name="category_wannaDo">wannaDo</string>
 
     <!--btn text-->
 

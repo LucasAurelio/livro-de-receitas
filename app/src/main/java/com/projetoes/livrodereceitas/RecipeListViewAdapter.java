@@ -53,10 +53,7 @@ public class RecipeListViewAdapter extends  ArrayAdapter  {
 
         TextView recipeName = (TextView) convertView.findViewById(R.id.recipe_item_name);
 
-
         recipeName.setText(currItem);
-
-
 
         recipeName.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.projetoes.livrodereceitas.fragments.HelpFragment;
 import com.projetoes.livrodereceitas.fragments.InitialFragment;
+import com.projetoes.livrodereceitas.fragments.ListRecipeCategoryFragment;
 import com.projetoes.livrodereceitas.fragments.RecipeBookFragment;
 import com.projetoes.livrodereceitas.fragments.SearchFragment;
 import com.projetoes.livrodereceitas.fragments.ListRecipesFragment;
@@ -31,12 +32,15 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private BottomBar mBottomBar;
+
     private InitialFragment initialFragment;
     private SearchFragment searchFragment;
     private ListRecipesFragment listRecipesFragment;
     private ViewRecipeFragment viewRecipeFragment;
     private RecipeBookFragment recipeBookFragment;
     private HelpFragment helpFragment;
+    private ListRecipeCategoryFragment listRecipeCategoryFragment;
+
     private ArrayList<String> resultRecipeList;
     private ArrayList viewRecipe;
 
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static DatabaseHelper ourDB;
+    private ArrayList listCategory;
+    private int category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         viewRecipeFragment = ViewRecipeFragment.getInstance();
         recipeBookFragment = RecipeBookFragment.getInstance();
         helpFragment = HelpFragment.getInstance();
-
+        listRecipeCategoryFragment = ListRecipeCategoryFragment.getInstance();
 
         // Bottom bar navigation menu
         mBottomBar = BottomBar.attach(this, savedInstanceState);
@@ -297,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
             fvrts.add(favoritas.getString(0));
             favoritas.moveToNext();
         }
+
         favoritas.close();
         return fvrts;
     }
@@ -333,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
         if (status){
             byteStatus = 1;
         }
-        ourDB.setReceitaCategoria(catgSelecionada,recipe,byteStatus);
+        ourDB.setReceitaCategoria(catgSelecionada, recipe, byteStatus);
     }
     public ArrayList<String> getCategoriasReceitas(){
         return ourDB.getCategorias();
@@ -372,6 +379,19 @@ public class MainActivity extends AppCompatActivity {
         }
         return recipe;
     }
+    public ArrayList<String> getResultRecipeList(){
+        return resultRecipeList;
+    }
+    public ArrayList getViewRecipe(){
+        return viewRecipe;
+    }
+    public ArrayList<String> getRecipeListCategory(){
+        return listCategory;
+    }
+
+    public int getCategory(){
+        return category;
+    }
 
 
     public void onSearchButtonPressed(View view){
@@ -385,13 +405,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public ArrayList<String> getResultRecipeList(){
-        return resultRecipeList;
-    }
-    public ArrayList getViewRecipe(){
-        return viewRecipe;
+    public void onFavoritesPressed(View view){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
+                listRecipeCategoryFragment, ViewRecipeFragment.TAG).addToBackStack(ListRecipeCategoryFragment.TAG).commit();
+        listCategory = viewReceitasFavoritas();
+        category = R.string.favorite;
     }
 
+    public void onWannaDoPressed(View view){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
+                listRecipeCategoryFragment, ViewRecipeFragment.TAG).addToBackStack(ListRecipeCategoryFragment.TAG).commit();
+        listCategory = viewReceitasQueroFazer();
+        category = R.string.wannaDo;
+
+    }
+
+    public void onDonePressed(View view){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
+                listRecipeCategoryFragment, ViewRecipeFragment.TAG).addToBackStack(ListRecipeCategoryFragment.TAG).commit();
+        listCategory = viewReceitasJaFiz();
+        category = R.string.done;
+
+    }
 
     public static class ListUtils {
         public static void setDynamicHeight(ListView mListView) {
@@ -423,6 +458,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
 }

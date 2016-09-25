@@ -1,27 +1,27 @@
 package com.projetoes.livrodereceitas.fragments;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
 import com.projetoes.livrodereceitas.RecipeListViewAdapter;
-import com.projetoes.livrodereceitas.SelectedIngredientsListViewAdapter;
 
 import java.util.ArrayList;
 
-public class ListRecipesFragment extends Fragment {
-
-    private static ListRecipesFragment fragment;
+public class ListRecipeCategoryFragment extends Fragment {
+    private static ListRecipeCategoryFragment fragment;
     public static final String TAG = "LIST_RECIPES_FRAGMENT";
 
-    public ListRecipesFragment() {
+    public ListRecipeCategoryFragment() {
         // Required empty public constructor
     }
 
@@ -31,9 +31,9 @@ public class ListRecipesFragment extends Fragment {
      *
      * @return A new instance of fragment SearchFragment.
      */
-    public static ListRecipesFragment getInstance() {
+    public static ListRecipeCategoryFragment getInstance() {
         if (fragment == null) {
-            fragment = new ListRecipesFragment();
+            fragment = new ListRecipeCategoryFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
         }
@@ -51,22 +51,27 @@ public class ListRecipesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_list_recipes, container, false);
+        final View view = inflater.inflate(R.layout.fragment_list_recipe_category, container, false);
 
-        final ArrayList<String> recipeList = ((MainActivity) getActivity()).getResultRecipeList();
+        final ArrayList<String> recipeList = ((MainActivity) getActivity()).getRecipeListCategory();
 
-        final ListView recipesListView = (ListView) view.findViewById(R.id.recipes_result);
+        final ListView recipesListView = (ListView) view.findViewById(R.id.recipes_result_category);
+        TextView result = (TextView) view.findViewById(R.id.result_category);
 
-        TextView result = (TextView) view.findViewById(R.id.result);
 
-        if(recipeList.isEmpty()){
+        if (((MainActivity) getActivity()).getCategory() == R.string.favorite){
+            result.setText("Favoritas:");
+        } else if (((MainActivity) getActivity()).getCategory() == R.string.wannaDo){
+            result.setText("Quero fazer:");
+        } else if (((MainActivity) getActivity()).getCategory() == R.string.wannaDo){
+            result.setText("Quero fazer:");
+        } else if(recipeList.isEmpty()){
             result.setText("Ops, não encontramos nenhuma receita com essas opções :(");
-        }
-        else {
-            result.setText("Resultado da pesquisa:");
-            recipesListView.setAdapter(new RecipeListViewAdapter(getActivity(), recipeList));
+        } else {
+            result.setText("Receitas:");
         }
 
+        recipesListView.setAdapter(new RecipeListViewAdapter(getActivity(), recipeList));
         MainActivity.ListUtils.setDynamicHeight(recipesListView);
 
         return view;
@@ -74,4 +79,3 @@ public class ListRecipesFragment extends Fragment {
 
 
 }
-
