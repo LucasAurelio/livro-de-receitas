@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList viewRecipe;
 
     public static final String TAG = "MAIN_ACTIVITY";
+    private static final String SEARCH_COMPATIBILIDADE = "COMPATIBILIDADE";
+
+    private String typeSearch;
 
 
     private static DatabaseHelper ourDB;
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         resultRecipeList = new ArrayList<String>();
         resultRecipeListSimilar = new ArrayList<String>();
+        typeSearch = "";
 
         changeFragment(initialFragment, InitialFragment.TAG, true);
 
@@ -288,6 +292,13 @@ public class MainActivity extends AppCompatActivity {
         return allReceitasSimilares;
     }
 
+    public void setTypeSearch(String type){
+        typeSearch = type;
+    }
+
+    public String getTypeSearch(){
+        return typeSearch;
+    }
 
     public ArrayList viewReceitaSelecionada(String nomeSelecionado){
         Cursor receitaSelecionada = ourDB.getReceitaSelecionada(nomeSelecionado);
@@ -406,7 +417,13 @@ public class MainActivity extends AppCompatActivity {
         return recipe;
     }
     public ArrayList<String> getResultRecipeList(){
-        return resultRecipeList;
+
+        if(typeSearch.equals(SEARCH_COMPATIBILIDADE)){
+            return resultRecipeList;
+        }
+        else{
+            return resultRecipeListSimilar;
+        }
     }
     public ArrayList getViewRecipe(){
         return viewRecipe;
@@ -426,17 +443,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onCompatibilidadeButtonPressed(View view){
+    public void onTypeButtonPressed(View view){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
                 listRecipesFragment, ListRecipesFragment.TAG).addToBackStack(ListRecipesFragment.TAG).commit();
 
     }
 
-    public void onSimilaridadeButtonPressed(View view){
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
-                listRecipesFragment, ListRecipesFragment.TAG).addToBackStack(ListRecipesFragment.TAG).commit();
-
-    }
     public void onRecipePressed(View view){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
                 viewRecipeFragment, ViewRecipeFragment.TAG).addToBackStack(ViewRecipeFragment.TAG).commit();

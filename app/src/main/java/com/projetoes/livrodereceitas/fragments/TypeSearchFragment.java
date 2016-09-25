@@ -14,6 +14,8 @@ public class TypeSearchFragment extends Fragment {
 
     private static TypeSearchFragment fragment;
     public static final String TAG = "TYPE_SEARCH_FRAGMENT";
+    private final String SEARCH_COMPATIBILIDADE = "COMPATIBILIDADE";
+    private final String SEARCH_SIMILARIDADE = "SIMILARIDADE";
 
     public TypeSearchFragment() {
         // Required empty public constructor
@@ -52,14 +54,16 @@ public class TypeSearchFragment extends Fragment {
         srcBtnCompativel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    ((MainActivity) getActivity()).onCompatibilidadeButtonPressed(getView());
+                ((MainActivity) getActivity()).setTypeSearch(SEARCH_COMPATIBILIDADE);
+                ((MainActivity) getActivity()).onTypeButtonPressed(getView());
             }
         });
 
         srcBtnSimilar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).onSimilaridadeButtonPressed(getView());
+                ((MainActivity) getActivity()).setTypeSearch(SEARCH_SIMILARIDADE);
+                ((MainActivity) getActivity()).onTypeButtonPressed(getView());
             }
         });
 
