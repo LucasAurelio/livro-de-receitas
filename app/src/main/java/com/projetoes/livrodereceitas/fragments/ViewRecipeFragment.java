@@ -74,7 +74,7 @@ public class ViewRecipeFragment extends Fragment {
         final ListView ingredientsListView = (ListView) view.findViewById(R.id.view_recipe_ingredients_list);
 
         ingredientsListView.setAdapter(new IngredientsRecipeViewAdapter(getActivity(), recipeIngredients));
-        ListUtils.setDynamicHeight(ingredientsListView);
+        MainActivity.ListUtils.setDynamicHeight(ingredientsListView);
 
         initializeCategories(view, R.string.categorie_favorite, R.drawable.ic_favorite_white, R.drawable.ic_favorite);
         initializeCategories(view, R.string.categorie_wannaDo, R.drawable.pot, R.drawable.pot);
@@ -151,24 +151,4 @@ public class ViewRecipeFragment extends Fragment {
         }
     }
 
-    public static class ListUtils {
-        public static void setDynamicHeight(ListView mListView) {
-            ListAdapter mListAdapter = mListView.getAdapter();
-            if (mListAdapter == null) {
-                // when adapter is null
-                return;
-            }
-            int height = 0;
-            int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-            for (int i = 0; i < mListAdapter.getCount(); i++) {
-                View listItem = mListAdapter.getView(i, null, mListView);
-                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-                height += listItem.getMeasuredHeight();
-            }
-            ViewGroup.LayoutParams params = mListView.getLayoutParams();
-            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount()));
-            mListView.setLayoutParams(params);
-            mListView.requestLayout();
-        }
-    }
 }

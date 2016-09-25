@@ -11,6 +11,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.projetoes.livrodereceitas.fragments.HelpFragment;
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         resultRecipeList = new ArrayList<String>();
 
-        changeFragment(initialFragment, InitialFragment.TAG ,true);
+        changeFragment(initialFragment, InitialFragment.TAG, true);
 
 
 
@@ -245,11 +248,13 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> allReceitasCompativeis = new ArrayList<>();
         receitasCompativeis.moveToFirst();
         while(!receitasCompativeis.isAfterLast()){
+            //RecipeSearch recipeSearch = new RecipeSearch(receitasCompativeis.getString(0),listaIngredientes.size(), receitasCompativeis.getInt(2));
             allReceitasCompativeis.add(receitasCompativeis.getString(0));
             receitasCompativeis.moveToNext();
         }
 
         resultRecipeList = allReceitasCompativeis;
+        receitasCompativeis.close();
         return allReceitasCompativeis;
     }
     public ArrayList viewReceitaSelecionada(String nomeSelecionado){
@@ -278,6 +283,7 @@ public class MainActivity extends AppCompatActivity {
         todos os seguintes na sequencia -> quantidade do ingrediente e logo após o ingrediente
         e o último elemento é o modo de fazer.
          */
+        receitaSelecionada.close();
         return aReceita;
     }
 
@@ -291,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
             fvrts.add(favoritas.getString(0));
             favoritas.moveToNext();
         }
-
+        favoritas.close();
         return fvrts;
     }
     public ArrayList viewReceitasJaFiz(){
@@ -304,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
             jaFiz.moveToNext();
         }
 
+        jaFiz.close();
         return fiz;
     }
     public ArrayList viewReceitasQueroFazer(){
@@ -316,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
             queroFazer.moveToNext();
         }
 
+        queroFazer.close();
         return quero;
     }
 
@@ -348,6 +356,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        categorias.close();
         return receitaCategorias;
     }
 
@@ -381,6 +390,38 @@ public class MainActivity extends AppCompatActivity {
     }
     public ArrayList getViewRecipe(){
         return viewRecipe;
+    }
+
+
+    public static class ListUtils {
+        public static void setDynamicHeight(ListView mListView) {
+            ListAdapter listAdapter = mListView.getAdapter();
+            if (listAdapter != null) {
+
+                int numberOfItems = listAdapter.getCount();
+
+                // Get total height of all items.
+                int totalItemsHeight = 0;
+                for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                    View item = listAdapter.getView(itemPos, null, mListView);
+                    float px = 500 * (mListView.getResources().getDisplayMetrics().density);
+                    item.measure(View.MeasureSpec.makeMeasureSpec((int) px, View.MeasureSpec.AT_MOST), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    totalItemsHeight += item.getMeasuredHeight();
+                }
+
+                // Get total height of all item dividers.
+                int totalDividersHeight = mListView.getDividerHeight() *
+                        (numberOfItems - 1);
+                // Get padding
+                int totalPadding = mListView.getPaddingTop() + mListView.getPaddingBottom();
+
+                // Set list height.
+                ViewGroup.LayoutParams params = mListView.getLayoutParams();
+                params.height = totalItemsHeight + totalDividersHeight + totalPadding;
+                mListView.setLayoutParams(params);
+                mListView.requestLayout();
+            }
+        }
     }
 
 
