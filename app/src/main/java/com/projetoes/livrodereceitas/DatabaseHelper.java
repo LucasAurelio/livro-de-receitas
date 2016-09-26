@@ -124,9 +124,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public Cursor getReceitasPorCompatibilidade(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
-        String allIngredientes = "'%" + listaIngredientes.get(0) +"%'";
-        for(int i=1;i<listaIngredientes.size();i++){
-            allIngredientes += " OR g.nome LIKE '%" + listaIngredientes.get(i) +"%'";
+        String allSelections = "";
+        for(int i=0;i<listaIngredientes.size();i++){
+            allSelections += ", sum(ss"+(i+1)+") as pp"+(i+1);
+        }
+
+        String allCases = "";
+        for(int i=0;i<listaIngredientes.size();i++){
+            allCases += ", CASE WHEN g.nome LIKE '%" + listaIngredientes.get(i) +"%' THEN 1 ELSE 0 END AS ss"+(i+1);
         }
 
         String allFiltros = "'" + listaFiltros.get(0) +"'";
@@ -134,16 +139,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             allFiltros += " OR p.tipo = '" + listaFiltros.get(i) +"'";
         }
 
+        String allHavings = "pp1>1";
+        for(int i=1;i<listaIngredientes.size();i++){
+            allHavings += " AND pp"+(i+1) +">0";
+        }
+
         Cursor cursor = ourDataBase.rawQuery(
-                "SELECT p.nome, COUNT(g.nome) as ranker " +
-                "FROM receita p, ingrediente g, receita_ingredientes f " +
+                "SELECT nome" + allSelections+" "+
+                "FROM(SELECT p.nome as nome, g.nome" + allCases +" "+
+                        "FROM receita p, ingrediente g, receita_ingredientes f "+
                 "WHERE p._id = f.id_receita " +
                 "AND g._id = f.id_ingrediente " +
-                "AND (p.tipo = " + allFiltros + ") " +
-                "AND (g.nome LIKE " + allIngredientes + ") "+
-                "GROUP BY p._id " +
-                "HAVING ranker > " + (listaIngredientes.size()-1) + " AND ranker <  "+ (listaIngredientes.size()+1)+" "+
-                "ORDER BY ranker DESC",null);
+                "AND (p.tipo = " + allFiltros + ")) " +
+                "GROUP BY nome " +
+                "HAVING "+allHavings+" ",null);
 
         return cursor;
     }
