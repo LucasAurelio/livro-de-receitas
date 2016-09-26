@@ -139,7 +139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             allFiltros += " OR p.tipo = '" + listaFiltros.get(i) +"'";
         }
 
-        String allHavings = "pp1>1";
+        String allHavings = "pp1>0";
         for(int i=1;i<listaIngredientes.size();i++){
             allHavings += " AND pp"+(i+1) +">0";
         }
