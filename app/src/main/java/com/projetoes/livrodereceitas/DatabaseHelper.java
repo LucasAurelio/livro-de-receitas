@@ -244,7 +244,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         try{
             ourDataBase.rawQuery(
                     "UPDATE receita_categorias " +
-                            "SET favoritas = " + String.valueOf(status)+
+                            "SET favoritas = " + String.valueOf(status)+" "+
                             "WHERE nome_receita = '"+receitaSelecionada+"'",null);
         }catch (SQLException e){
             ourDataBase.rawQuery(

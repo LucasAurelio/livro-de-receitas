@@ -59,14 +59,14 @@ public class ListRecipeCategoryFragment extends Fragment {
         TextView result = (TextView) view.findViewById(R.id.result_category);
 
 
-        if (((MainActivity) getActivity()).getCategory() == R.string.favorite){
+        if (recipeList.isEmpty()){
+            result.setText("Ops, não encontramos nenhuma receita nessa categoria :(");
+        } else if (((MainActivity) getActivity()).getCategory() == R.string.wannaDo){
+            result.setText("Quero fazer:");
+        } else if (((MainActivity) getActivity()).getCategory() == R.string.wannaDo){
+            result.setText("Quero fazer:");
+        } else if(((MainActivity) getActivity()).getCategory() == R.string.favorite){
             result.setText("Favoritas:");
-        } else if (((MainActivity) getActivity()).getCategory() == R.string.wannaDo){
-            result.setText("Quero fazer:");
-        } else if (((MainActivity) getActivity()).getCategory() == R.string.wannaDo){
-            result.setText("Quero fazer:");
-        } else if(recipeList.isEmpty()){
-            result.setText("Ops, não encontramos nenhuma receita com essas opções :(");
         } else {
             result.setText("Receitas:");
         }
