@@ -257,12 +257,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ContentValues values = new ContentValues();
 
         values.put("nome_receita", receitaSelecionada);
-        values.put("favoritas", status);
+        values.put("favoritas",status);
 
         Cursor testeDeAlocacao = checkForReceitaInCategorias(receitaSelecionada);
         if(testeDeAlocacao.getCount() > 0){
             ourDataBase.update("receita_categorias",values,"nome_receita = '"+receitaSelecionada+"'",null);
         }else{
+            values.put("quero_fazer",0);
+            values.put("ja_fiz",0);
             ourDataBase.insert("receita_categorias", null, values);
         }
         checkForReceitaSemCategoria();
@@ -281,6 +283,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if(testeDeAlocacao.getCount() > 0){
             ourDataBase.update("receita_categorias",values,"nome_receita = '"+receitaSelecionada+"'",null);
         }else{
+            values.put("favoritas",0);
             ourDataBase.insert("receita_categorias", null, values);
         }
         checkForReceitaSemCategoria();
@@ -299,6 +302,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if(testeDeAlocacao.getCount() > 0){
             ourDataBase.update("receita_categorias",values,"nome_receita = '"+receitaSelecionada+"'",null);
         }else{
+            values.put("favoritas",0);
             ourDataBase.insert("receita_categorias", null, values);
         }
 

@@ -407,17 +407,17 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList getCategoriasPorReceita(String receitaSelecionada){
         Cursor categorias = ourDB.receitaCategorias(receitaSelecionada);
-        ArrayList receitaCategorias = new ArrayList<>();
+        ArrayList<String> receitaCategorias = new ArrayList<>();
 
         if (!(categorias.getCount()==0)){
             categorias.moveToFirst();
-            if ((categorias.getString(0) == "1")){
+            if ((categorias.getString(0).equals("1"))){
                 receitaCategorias.add("Quero fazer");
             }
-            if ((categorias.getString(1) == "1")){
+            if ((categorias.getString(1).equals("1"))){
                 receitaCategorias.add("Já fiz");
             }
-            if ((categorias.getString(2) == "1")){
+            if ((categorias.getString(2).equals("1"))){
                 receitaCategorias.add("Favorita");
             }
         }

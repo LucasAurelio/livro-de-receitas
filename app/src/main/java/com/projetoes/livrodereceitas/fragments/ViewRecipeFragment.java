@@ -88,13 +88,13 @@ public class ViewRecipeFragment extends Fragment {
 
         if (stringId == R.string.category_favorite){
             btn = (ImageButton) view.findViewById(R.id.favorite_recipe_btn);
-
+            initialStatus = recipe.isFavorite();
         } else if (stringId == R.string.category_wannaDo){
             btn = (ImageButton) view.findViewById(R.id.wannaDo_recipe_btn);
-
+            initialStatus = recipe.isWannaDo();
         } else if (stringId == R.string.category_done) {
             btn = (ImageButton) view.findViewById(R.id.done_recipe_btn);
-
+            initialStatus = recipe.isDone();
         }
 
         setImgBtn(btn, initialStatus, colorTrue, colorFalse);
