@@ -275,8 +275,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put("quero_fazer", status);
         if(status == 1){
             values.put("ja_fiz",0);
-        }else{
-            values.put("ja_fiz",1);
         }
 
         Cursor testeDeAlocacao = checkForReceitaInCategorias(receitaSelecionada);
@@ -295,8 +293,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put("ja_fiz", status);
         if(status == 1){
             values.put("quero_fazer",0);
-        }else{
-            values.put("quero_fazer",1);
         }
 
         Cursor testeDeAlocacao = checkForReceitaInCategorias(receitaSelecionada);
