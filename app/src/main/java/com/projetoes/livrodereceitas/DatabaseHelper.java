@@ -328,10 +328,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     private void checkForReceitaSemCategoria(){
-        ourDataBase.rawQuery(
-                "DELETE FROM receita_categorias " +
-                        "WHERE quero_fazer = 0 " +
-                        "AND ja_fiz = 0 " +
-                        "AND favoritas = 0 ",null);
+        ourDataBase.delete("receita_categorias","quero_fazer = 0 AND ja_fiz = 0 AND favoritas = 0 ",null);
     }
 }
