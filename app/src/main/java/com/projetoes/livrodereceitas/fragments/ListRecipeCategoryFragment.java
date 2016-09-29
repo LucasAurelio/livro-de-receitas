@@ -63,8 +63,8 @@ public class ListRecipeCategoryFragment extends Fragment {
             result.setText("Ops, não encontramos nenhuma receita nessa categoria :(");
         } else if (((MainActivity) getActivity()).getCategory() == R.string.wannaDo){
             result.setText("Quero fazer:");
-        } else if (((MainActivity) getActivity()).getCategory() == R.string.wannaDo){
-            result.setText("Quero fazer:");
+        } else if (((MainActivity) getActivity()).getCategory() == R.string.done){
+            result.setText("Já Fiz:");
         } else if(((MainActivity) getActivity()).getCategory() == R.string.favorite){
             result.setText("Favoritas:");
         } else {

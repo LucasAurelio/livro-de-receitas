@@ -1,11 +1,13 @@
 package com.projetoes.livrodereceitas;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,12 +18,12 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static String DATABASE_PATH = "/data/data/com.projetoes.livrodereceitas/databases/";
     public static final String DATABASE_NAME = "repositorioDeReceitas.db";
 
     private static SQLiteDatabase ourDataBase;
-    private final Context ourContext;
+    private static Context ourContext;
 
 
     public DatabaseHelper(Context context) {
@@ -35,15 +37,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if(dbExists){
             //lembrar de excluir
             //ourDataBase.close();
-            ourContext.deleteDatabase(DATABASE_NAME);
-            this.getReadableDatabase();
+            //ourContext.deleteDatabase(DATABASE_NAME);
+            this.getWritableDatabase();
             try{
                 copyDataBase();
             }catch (IOException e){
                 throw new Error("error copying database");
             }
         }else{
-            this.getReadableDatabase();
+            this.getWritableDatabase();
             try{
                 copyDataBase();
             }catch (IOException e){
@@ -91,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public void openDataBase() throws SQLException{
         String thePath = DATABASE_PATH + DATABASE_NAME;
-        ourDataBase = SQLiteDatabase.openDatabase(thePath,null, SQLiteDatabase.OPEN_READONLY);
+        ourDataBase = SQLiteDatabase.openDatabase(thePath,null, SQLiteDatabase.OPEN_READWRITE);
     }
 
     @Override
@@ -231,60 +233,50 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public void setReceitaCategoria(int catgr, String nomeDaReceita, byte status){
         if (catgr == (R.string.category_wannaDo)){
-            setReceitaQueroFazer(nomeDaReceita);
+            setReceitaQueroFazer(nomeDaReceita,status);
         }else if(catgr == (R.string.category_done)){
-            setReceitaJaFiz(nomeDaReceita);
+            setReceitaJaFiz(nomeDaReceita,status);
         }else if(catgr == (R.string.category_favorite)){
             setReceitaFavoritas(nomeDaReceita, status);
         }
     }
 
     public void setReceitaFavoritas(String receitaSelecionada, byte status){
-        ourDataBase = this.getWritableDatabase();
-        try{
-            ourDataBase.rawQuery(
-                    "UPDATE receita_categorias " +
-                            "SET favoritas = " + String.valueOf(status)+" "+
-                            "WHERE nome_receita = '"+receitaSelecionada+"'",null);
-        }catch (SQLException e){
-            ourDataBase.rawQuery(
-                    "INSERT INTO receita_categorias(nome_receita,quero_fazer,ja_fiz,favoritas) " +
-                            "VALUES ('" + receitaSelecionada + "',0,0,"+ String.valueOf(status)+")",null);
-        }
+        ContentValues values = new ContentValues();
 
+        values.put("nome_receita", receitaSelecionada);
+        values.put("favoritas", status);
+        try{
+            ourDataBase.update("receita_categorias",values,"nome_receita = "+receitaSelecionada,null);
+        }catch (SQLException e){
+            ourDataBase.insert("receita_categorias", null, values);
+        }
         checkForReceitaSemCategoria();
     }
 
-    public void setReceitaQueroFazer(String receitaSelecionada){
-        ourDataBase = this.getWritableDatabase();
-        try{
-            ourDataBase.rawQuery(
-                    "UPDATE receita_categorias " +
-                            "SET quero_fazer = 1 "+
-                            "WHERE nome_receita = '"+receitaSelecionada+"'",null);
-        }catch (SQLException e){
-            ourDataBase.rawQuery(
-                    "INSERT INTO receita_categorias(nome_receita,quero_fazer,ja_fiz,favoritas) " +
-                            "VALUES ('" + receitaSelecionada + "',1,0,0",null);
-        }
+    public void setReceitaQueroFazer(String receitaSelecionada, byte status){
+        ContentValues values = new ContentValues();
 
+        values.put("nome_receita", receitaSelecionada);
+        values.put("quero_fazer", status);
+        try{
+            ourDataBase.update("receita_categorias",values,"nome_receita = "+receitaSelecionada,null);
+        }catch (SQLException e){
+            ourDataBase.insert("receita_categorias", null, values);
+        }
         checkForReceitaSemCategoria();
     }
 
-    public void setReceitaJaFiz(String receitaSelecionada){
-        ourDataBase = this.getWritableDatabase();
+    public void setReceitaJaFiz(String receitaSelecionada,byte status){
+        ContentValues values = new ContentValues();
 
+        values.put("nome_receita", receitaSelecionada);
+        values.put("ja_fiz", status);
         try{
-            ourDataBase.rawQuery(
-                    "UPDATE receita_categorias " +
-                            "SET ja_fiz = 1 "+
-                            "WHERE nome_receita = '"+receitaSelecionada+"'",null);
+            ourDataBase.update("receita_categorias",values,"nome_receita = "+receitaSelecionada,null);
         }catch (SQLException e){
-            ourDataBase.rawQuery(
-                    "INSERT INTO receita_categorias(nome_receita,quero_fazer,ja_fiz,favoritas) " +
-                            "VALUES ('" + receitaSelecionada + "',0,1,0",null);
+            ourDataBase.insert("receita_categorias", null, values);
         }
-
         checkForReceitaSemCategoria();
     }
 
