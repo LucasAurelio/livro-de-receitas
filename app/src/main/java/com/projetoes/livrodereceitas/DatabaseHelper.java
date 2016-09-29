@@ -39,11 +39,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             //ourDataBase.close();
             //ourContext.deleteDatabase(DATABASE_NAME);
             this.getWritableDatabase();
-            try{
-                copyDataBase();
-            }catch (IOException e){
-                throw new Error("error copying database");
-            }
         }else{
             this.getWritableDatabase();
             try{
@@ -147,8 +142,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
 
         Cursor cursor = ourDataBase.rawQuery(
-                "SELECT nome" + allSelections+" "+
-                "FROM(SELECT p.nome as nome, g.nome" + allCases +" "+
+                "SELECT nome, count(ingr)" + allSelections+" "+
+                "FROM(SELECT p.nome as nome, g.nome as ingr" + allCases +" "+
                         "FROM receita p, ingrediente g, receita_ingredientes f "+
                 "WHERE p._id = f.id_receita " +
                 "AND g._id = f.id_ingrediente " +
@@ -160,9 +155,21 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public Cursor getReceitasPorSimilaridade(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
-        String allIngredientes = "'%" + listaIngredientes.get(0) +"%'";
+        String allSelections = "";
+        for(int i=0;i<listaIngredientes.size();i++){
+            allSelections += ", sum(ss"+(i+1)+") as pp"+(i+1);
+        }
+
+        String allSums = ",(sum(ss1) ";
         for(int i=1;i<listaIngredientes.size();i++){
-            allIngredientes += " OR g.nome LIKE '%" + listaIngredientes.get(i) +"%'";
+            allSums += "+ sum(ss"+(i+1)+")";
+        }
+        allSums = allSums + ")";
+
+
+        String allCases = "";
+        for(int i=0;i<listaIngredientes.size();i++){
+            allCases += ", CASE WHEN g.nome LIKE '%" + listaIngredientes.get(i) +"%' THEN 1 ELSE 0 END AS ss"+(i+1);
         }
 
         String allFiltros = "'" + listaFiltros.get(0) +"'";
@@ -170,16 +177,21 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             allFiltros += " OR p.tipo = '" + listaFiltros.get(i) +"'";
         }
 
+        String allHavings = "(pp1";
+        for(int i=1;i<listaIngredientes.size();i++){
+            allHavings += "+ pp"+(i+1);
+        }
+        allHavings = allHavings +") <"+listaIngredientes.size();
+
         Cursor cursor = ourDataBase.rawQuery(
-                "SELECT p.nome, COUNT(g.nome) as ranker " +
-                "FROM receita p, ingrediente g, receita_ingredientes f " +
-                "WHERE p._id = f.id_receita " +
-                "AND g._id = f.id_ingrediente " +
-                "AND (p.tipo = " + allFiltros + ") " +
-                "AND (g.nome LIKE " + allIngredientes + ") "+
-                "GROUP BY p._id " +
-                "HAVING ranker < " + listaIngredientes.size() +" "+
-                "ORDER BY ranker DESC ",null);
+                "SELECT nome, count(ingr)" + allSelections+allSums+" "+
+                        "FROM(SELECT p.nome as nome, g.nome as ingr" + allCases +" "+
+                        "FROM receita p, ingrediente g, receita_ingredientes f "+
+                        "WHERE p._id = f.id_receita " +
+                        "AND g._id = f.id_ingrediente " +
+                        "AND (p.tipo = " + allFiltros + ")) " +
+                        "GROUP BY nome " +
+                        "HAVING "+allHavings+" ",null);
 
         return cursor;
     }
@@ -246,9 +258,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         values.put("nome_receita", receitaSelecionada);
         values.put("favoritas", status);
-        try{
-            ourDataBase.update("receita_categorias",values,"nome_receita = "+receitaSelecionada,null);
-        }catch (SQLException e){
+
+        Cursor testeDeAlocacao = checkForReceitaInCategorias(receitaSelecionada);
+        if(testeDeAlocacao.getCount() > 0){
+            ourDataBase.update("receita_categorias",values,"nome_receita = '"+receitaSelecionada+"'",null);
+        }else{
             ourDataBase.insert("receita_categorias", null, values);
         }
         checkForReceitaSemCategoria();
@@ -259,9 +273,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         values.put("nome_receita", receitaSelecionada);
         values.put("quero_fazer", status);
-        try{
-            ourDataBase.update("receita_categorias",values,"nome_receita = "+receitaSelecionada,null);
-        }catch (SQLException e){
+        if(status == 1){
+            values.put("ja_fiz",0);
+        }else{
+            values.put("ja_fiz",1);
+        }
+
+        Cursor testeDeAlocacao = checkForReceitaInCategorias(receitaSelecionada);
+        if(testeDeAlocacao.getCount() > 0){
+            ourDataBase.update("receita_categorias",values,"nome_receita = '"+receitaSelecionada+"'",null);
+        }else{
             ourDataBase.insert("receita_categorias", null, values);
         }
         checkForReceitaSemCategoria();
@@ -272,20 +293,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         values.put("nome_receita", receitaSelecionada);
         values.put("ja_fiz", status);
-        try{
-            ourDataBase.update("receita_categorias",values,"nome_receita = "+receitaSelecionada,null);
-        }catch (SQLException e){
+        if(status == 1){
+            values.put("quero_fazer",0);
+        }else{
+            values.put("quero_fazer",1);
+        }
+
+        Cursor testeDeAlocacao = checkForReceitaInCategorias(receitaSelecionada);
+        if(testeDeAlocacao.getCount() > 0){
+            ourDataBase.update("receita_categorias",values,"nome_receita = '"+receitaSelecionada+"'",null);
+        }else{
             ourDataBase.insert("receita_categorias", null, values);
         }
-        checkForReceitaSemCategoria();
-    }
 
-    public void checkForReceitaSemCategoria(){
-        ourDataBase.rawQuery(
-                "DELETE FROM receita_categorias " +
-                        "WHERE quero_fazer = 0 " +
-                        "AND ja_fiz = 0 " +
-                        "AND favoritas = 0 ",null);
+        checkForReceitaSemCategoria();
     }
 
     public Cursor receitaCategorias(String receitaSelecionada) {
@@ -295,5 +316,22 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         "WHERE nome_receita = '"+receitaSelecionada+"'", null);
 
         return  cursor;
+    }
+
+    // CATEGORIAS HELPERS
+    private Cursor checkForReceitaInCategorias(String nomeDaReceita){
+        Cursor cursor = ourDataBase.rawQuery(
+                "SELECT nome_receita " +
+                        "FROM receita_categorias " +
+                        "WHERE nome_receita = '"+nomeDaReceita+"' ", null);
+        return cursor;
+    }
+
+    private void checkForReceitaSemCategoria(){
+        ourDataBase.rawQuery(
+                "DELETE FROM receita_categorias " +
+                        "WHERE quero_fazer = 0 " +
+                        "AND ja_fiz = 0 " +
+                        "AND favoritas = 0 ",null);
     }
 }

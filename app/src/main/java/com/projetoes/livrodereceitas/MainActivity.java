@@ -256,15 +256,29 @@ public class MainActivity extends AppCompatActivity {
 
     // View resultados de busca
     public ArrayList viewReceitasCompativeis(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
-        if (listaFiltros.isEmpty()){
-            listaFiltros.add("");
-        }
         Cursor receitasCompativeis = ourDB.getReceitasPorCompatibilidade(listaIngredientes, listaFiltros);
+        //excluir linha abaixo
         ArrayList<String> allReceitasCompativeis = new ArrayList<>();
+        //descomentar linha abaixo
+        //ArrayList<String[]> allReceitasCompativeis = new ArrayList<>();
+
         receitasCompativeis.moveToFirst();
         while(!receitasCompativeis.isAfterLast()){
-            //RecipeSearch recipeSearch = new RecipeSearch(receitasCompativeis.getString(0),listaIngredientes.size(), receitasCompativeis.getInt(2));
+
+            //descomentar codigo abaixo
+            //String[] receitaEnumber = new String[2];
+                    //nome da receita
+            //receitaEnumber[0] = receitasCompativeis.getString(0);
+                    //quantidade em forma da string 'n/j'
+            //receitaEnumber[1] = listaIngredientes.size()+"/"+receitasCompativeis.getString(1);
+
+            //excluir linha abaixo
             allReceitasCompativeis.add(receitasCompativeis.getString(0));
+
+            //descomentar linha abaixo
+            //allReceitasCompativeis.add(receitaEnumber);
+
+            //manter linha abaixo
             receitasCompativeis.moveToNext();
         }
 
@@ -273,31 +287,36 @@ public class MainActivity extends AppCompatActivity {
         return allReceitasCompativeis;
     }
 
-    // View resultados de busca
     public ArrayList viewReceitasSimilares(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
-        if (listaFiltros.isEmpty()){
-            listaFiltros.add("");
-        }
         Cursor receitasSimilares = ourDB.getReceitasPorSimilaridade(listaIngredientes, listaFiltros);
+        //excluir linha abaixo
         ArrayList<String> allReceitasSimilares = new ArrayList<>();
+        //descomentar linha abaixo
+        //ArrayList<String[]> allReceitasSimilares = new ArrayList<>();
+
         receitasSimilares.moveToFirst();
         while(!receitasSimilares.isAfterLast()){
-            //RecipeSearch recipeSearch = new RecipeSearch(receitasCompativeis.getString(0),listaIngredientes.size(), receitasCompativeis.getInt(2));
+
+            //descomentar código abaixo
+            //String receitaEnumber = new String[2];
+                    //nome da receita
+            //receitaEnumber[0] = receitasSimilares.getString(0);
+                    //quantidade de ingredientes presentes na receita
+            //receitaEnumber[1] = receitasSimilares.getString(listaIngredientes.size()+2) +"/"+ receitasSimilares.getString(1);
+
+            //excluir linha abaixo
             allReceitasSimilares.add(receitasSimilares.getString(0));
+
+            //descomentar linha abaixo
+            //allReceitasSimilares.add(receitaEnumber);
+
+            //manter linha abaixo
             receitasSimilares.moveToNext();
         }
 
         resultRecipeListSimilar = allReceitasSimilares;
         receitasSimilares.close();
         return allReceitasSimilares;
-    }
-
-    public void setTypeSearch(String type){
-        typeSearch = type;
-    }
-
-    public String getTypeSearch(){
-        return typeSearch;
     }
 
     public ArrayList viewReceitaSelecionada(String nomeSelecionado){
@@ -321,13 +340,16 @@ public class MainActivity extends AppCompatActivity {
 
         viewRecipe = aReceita;
 
-        /*
-        ArrayList: sendo o primeiro elemento o título da receita,
-        todos os seguintes na sequencia -> quantidade do ingrediente e logo após o ingrediente
-        e o último elemento é o modo de fazer.
-         */
         receitaSelecionada.close();
         return aReceita;
+    }
+
+    public void setTypeSearch(String type){
+        typeSearch = type;
+    }
+
+    public String getTypeSearch(){
+        return typeSearch;
     }
 
     //view categorias
