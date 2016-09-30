@@ -405,6 +405,8 @@ public class MainActivity extends AppCompatActivity {
         return ourDB.getCategorias();
     }
 
+
+
     private ArrayList getCategoriasPorReceita(String receitaSelecionada){
         Cursor categorias = ourDB.receitaCategorias(receitaSelecionada);
         ArrayList<String> receitaCategorias = new ArrayList<>();

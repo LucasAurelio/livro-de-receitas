@@ -24,6 +24,7 @@ public class ViewRecipeFragment extends Fragment {
     public static final String TAG = "VIEW_RECIPE_FRAGMENT";
     private Recipe recipe;
 
+
     public ViewRecipeFragment() {
         // Required empty public constructor
     }
@@ -75,9 +76,9 @@ public class ViewRecipeFragment extends Fragment {
         ingredientsListView.setAdapter(new IngredientsRecipeViewAdapter(getActivity(), recipeIngredients));
         MainActivity.ListUtils.setDynamicHeight(ingredientsListView);
 
-        initializeCategories(view, R.string.category_favorite, R.mipmap.ic_favorite_color,R.drawable.ic_favorite);
-        initializeCategories(view, R.string.category_wannaDo, R.mipmap.ic_pot_color, R.drawable.pot_black);
-        initializeCategories(view, R.string.category_done, R.mipmap.ic_chef_color, R.drawable.cooker_black);
+        initializeCategories(view, R.string.category_favorite, R.drawable.ic_favorite_pink,R.drawable.ic_favorite_gray);
+        initializeCategories(view, R.string.category_wannaDo, R.drawable.pot_pink, R.drawable.pot_gray);
+        initializeCategories(view, R.string.category_done, R.drawable.cooker_pink, R.drawable.cooker_gray);
 
         return view;
     }
@@ -102,6 +103,7 @@ public class ViewRecipeFragment extends Fragment {
         try {
             final ImageButton finalBtn = btn;
 
+
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -110,6 +112,7 @@ public class ViewRecipeFragment extends Fragment {
                     Log.d(TAG, categories.toString());
                     //
                     boolean status = false;
+                    String lastId = "";
 
                     if (stringId == R.string.category_favorite) {
                         recipe.setIsFavorite(!recipe.isFavorite());
@@ -118,16 +121,31 @@ public class ViewRecipeFragment extends Fragment {
                     } else if (stringId == R.string.category_wannaDo) {
                         recipe.setIsWannaDo(!recipe.isWannaDo());
                         status = recipe.isWannaDo();
+                        lastId = "wannaDo";
+                            if (recipe.isWannaDo()) {
+                                recipe.setIsDone(false);
+                                ImageButton secBtn = (ImageButton) view.findViewById(R.id.done_recipe_btn);
+                                setImgBtn(secBtn, recipe.isDone(), R.drawable.cooker_pink, R.drawable.cooker_gray);
+                                
+                            }
 
-                    } else if (stringId == R.string.category_done) {
+                        } else if (stringId == R.string.category_done) {
                         recipe.setIsDone(!recipe.isDone());
                         status = recipe.isDone();
+                        lastId = "done";
+                            if (recipe.isDone()) {
+                                recipe.setIsWannaDo(false);
+                                ImageButton secBtn = (ImageButton) view.findViewById(R.id.wannaDo_recipe_btn);
+                                setImgBtn(secBtn, recipe.isWannaDo(), R.drawable.pot_pink, R.drawable.pot_gray);
 
+                            }
                     }
 
-                    setImgBtn(finalBtn, status, colorTrue, colorFalse);
+                    setImgBtn(finalBtn, status, colorTrue,colorFalse);
 
                     ((MainActivity) getActivity()).categorizarReceita(stringId, recipe.getName(), status);
+
+
 
                     //only to check change
                     categories = ((MainActivity) getActivity()).getCategoriesByRecipe(recipe);
@@ -141,6 +159,7 @@ public class ViewRecipeFragment extends Fragment {
         }
 
     }
+
 
     private void setImgBtn(ImageButton btn, Boolean status, int colorTrue, int colorFalse){
         if (status){
