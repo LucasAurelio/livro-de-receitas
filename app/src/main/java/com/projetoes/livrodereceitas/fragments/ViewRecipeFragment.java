@@ -1,6 +1,5 @@
 package com.projetoes.livrodereceitas.fragments;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -121,18 +120,16 @@ public class ViewRecipeFragment extends Fragment {
                     } else if (stringId == R.string.category_wannaDo) {
                         recipe.setIsWannaDo(!recipe.isWannaDo());
                         status = recipe.isWannaDo();
-                        lastId = "wannaDo";
                             if (recipe.isWannaDo()) {
                                 recipe.setIsDone(false);
                                 ImageButton secBtn = (ImageButton) view.findViewById(R.id.done_recipe_btn);
                                 setImgBtn(secBtn, recipe.isDone(), R.drawable.cooker_pink, R.drawable.cooker_gray);
-                                
+
                             }
 
                         } else if (stringId == R.string.category_done) {
                         recipe.setIsDone(!recipe.isDone());
                         status = recipe.isDone();
-                        lastId = "done";
                             if (recipe.isDone()) {
                                 recipe.setIsWannaDo(false);
                                 ImageButton secBtn = (ImageButton) view.findViewById(R.id.wannaDo_recipe_btn);

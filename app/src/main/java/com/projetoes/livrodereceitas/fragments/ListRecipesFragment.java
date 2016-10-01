@@ -5,14 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
 import com.projetoes.livrodereceitas.RecipeListViewAdapter;
-import com.projetoes.livrodereceitas.SelectedIngredientsListViewAdapter;
 
 import java.util.ArrayList;
 

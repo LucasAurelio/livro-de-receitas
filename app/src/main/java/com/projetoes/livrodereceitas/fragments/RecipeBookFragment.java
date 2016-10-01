@@ -1,20 +1,11 @@
 package com.projetoes.livrodereceitas.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.projetoes.livrodereceitas.IngredientsRecipeViewAdapter;
-import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
 
 import java.util.ArrayList;

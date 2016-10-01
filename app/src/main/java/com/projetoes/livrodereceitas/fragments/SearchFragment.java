@@ -1,7 +1,6 @@
 package com.projetoes.livrodereceitas.fragments;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,22 +12,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
-import android.util.SparseBooleanArray;
 
 import com.projetoes.livrodereceitas.CheckboxListViewAdapter;
-import com.projetoes.livrodereceitas.DatabaseHelper;
 import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
 import com.projetoes.livrodereceitas.SelectedIngredientsListViewAdapter;
-import com.roughike.bottombar.BottomBar;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.HashSet;
 import java.util.List;
 
@@ -132,7 +124,6 @@ public class SearchFragment extends Fragment {
 
                //Toast.makeText(getContext(),ingredientsArrayList.toString(), Toast.LENGTH_LONG).show();
                 addBtn.setEnabled(false);
-                Toast.makeText(getContext(),  myItems.toString() , Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.projetoes.livrodereceitas.fragments.HelpFragment;
 import com.projetoes.livrodereceitas.fragments.InitialFragment;
@@ -117,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
                 searchFragment, SearchFragment.TAG).addToBackStack(SearchFragment.TAG).commit();
 
-        Toast.makeText(getBaseContext(), "I choose you!", Toast.LENGTH_SHORT).show();
     }
 
 
