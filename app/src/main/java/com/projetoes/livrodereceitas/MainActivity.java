@@ -1,5 +1,6 @@
 package com.projetoes.livrodereceitas;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.PersistableBundle;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.projetoes.livrodereceitas.DB.DBUtils;
 import com.projetoes.livrodereceitas.fragments.HelpFragment;
 import com.projetoes.livrodereceitas.fragments.InitialFragment;
 import com.projetoes.livrodereceitas.fragments.ListRecipeCategoryFragment;
@@ -51,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String typeSearch;
 
-
-    private static DatabaseHelper ourDB;
     private ArrayList listCategory;
     private int category;
 
@@ -84,8 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         changeFragment(initialFragment, InitialFragment.TAG, true);
 
-
-
+        /*
         ourDB = new DatabaseHelper(this);
         try{
             ourDB.createDatabase();
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             ourDB.openDataBase();
         }catch(SQLException sqle){
             throw sqle;
-        }
+        } */
 
     }
 
@@ -183,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * Change the current displayed fragment by a new one.
      * - if the fragment is in backstack, it will pop it
@@ -230,6 +228,24 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    public void setTypeSearch(String type){
+        typeSearch = type;
+    }
+
+    public String getTypeSearch(){
+        return typeSearch;
+    }
+
+    public ArrayList<String> getCategoriasReceitas(){
+        ArrayList<String> categorias = new ArrayList<>();
+        categorias.add(getString(R.string.book_favoritas));
+        categorias.add(getString(R.string.book_quero_fazer));
+        categorias.add(getString(R.string.book_ja_fiz));
+
+        return categorias;
+    }
+
+/*
     //Popular opcoes de busca
     public ArrayList populateCompleteText(){
         Cursor alimentos = ourDB.getAlimentos();
@@ -240,7 +256,14 @@ public class MainActivity extends AppCompatActivity {
             alimentos.moveToNext();
         }
         return allAlimentos;
+    } */
+
+    //Popular opcoes de busca de ingredientes
+    public ArrayList populateCompleteText(Context context){
+        return DBUtils.getAlimentos(context);
     }
+
+   /*
     public ArrayList populateFilterList() {
         Cursor categorias = ourDB.getTipos();
         ArrayList<String> allCategorias = new ArrayList<>();
@@ -250,9 +273,14 @@ public class MainActivity extends AppCompatActivity {
             categorias.moveToNext();
         }
         return allCategorias;
+    } */
+
+    //Popular opções de filtros
+    public ArrayList populateFilterList(Context context) {
+        return DBUtils.getTipos(context);
     }
 
-    // View resultados de busca
+/*    // View resultados de busca
     public ArrayList viewReceitasCompativeis(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
         Cursor receitasCompativeis = ourDB.getReceitasPorCompatibilidade(listaIngredientes, listaFiltros);
         //excluir linha abaixo
@@ -284,8 +312,18 @@ public class MainActivity extends AppCompatActivity {
         receitasCompativeis.close();
         return allReceitasCompativeis;
     }
+*/
 
-    public ArrayList viewReceitasSimilares(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
+
+    // View resultados de busca por Compatibilidade
+    public ArrayList viewReceitasCompativeis(Context context, ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
+        resultRecipeList = DBUtils.getReceitasPorCompatibilidade(context, listaIngredientes, listaFiltros);
+        return resultRecipeList;
+
+    }
+
+
+/*    public ArrayList viewReceitasSimilares(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
         Cursor receitasSimilares = ourDB.getReceitasPorSimilaridade(listaIngredientes, listaFiltros);
         //excluir linha abaixo
         //ArrayList<String> allReceitasSimilares = new ArrayList<>();
@@ -316,8 +354,17 @@ public class MainActivity extends AppCompatActivity {
         receitasSimilares.close();
         return allReceitasSimilares;
     }
+*/
 
-    public ArrayList viewReceitaSelecionada(String nomeSelecionado){
+    // View resultados de busca
+    public ArrayList viewReceitasSimilares(Context context, ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
+
+        resultRecipeListSimilar = DBUtils.getReceitasPorSimilaridade(context, listaIngredientes, listaFiltros);
+        return resultRecipeListSimilar;
+    }
+
+
+   /* public ArrayList viewReceitaSelecionada(String nomeSelecionado){
         Cursor receitaSelecionada = ourDB.getReceitaSelecionada(nomeSelecionado);
         ArrayList aReceita = new ArrayList<>();
         receitaSelecionada.moveToFirst();
@@ -340,17 +387,14 @@ public class MainActivity extends AppCompatActivity {
 
         receitaSelecionada.close();
         return aReceita;
+    } */
+
+    public ArrayList viewReceitaSelecionada(Context context, String nomeSelecionado){
+        viewRecipe = DBUtils.getReceitaSelecionada(context, nomeSelecionado);
+        return viewRecipe;
     }
 
-    public void setTypeSearch(String type){
-        typeSearch = type;
-    }
-
-    public String getTypeSearch(){
-        return typeSearch;
-    }
-
-    //view categorias
+ /*   //view categorias
     public ArrayList viewReceitasFavoritas(){
         Cursor favoritas = ourDB.getReceitasFavoritas();
         ArrayList<String> fvrts = new ArrayList<>();
@@ -363,7 +407,14 @@ public class MainActivity extends AppCompatActivity {
 
         favoritas.close();
         return fvrts;
+    } */
+
+    //view categoria Favoritas
+    public ArrayList viewReceitasFavoritas(Context context){
+        return  DBUtils.getReceitasFavoritas(context);
     }
+
+/*
     public ArrayList viewReceitasJaFiz(){
         Cursor jaFiz = ourDB.getReceitasJaFiz();
         ArrayList<String> fiz = new ArrayList<>();
@@ -376,7 +427,13 @@ public class MainActivity extends AppCompatActivity {
 
         jaFiz.close();
         return fiz;
+    } */
+
+    //view categoria Já fiz
+    public ArrayList viewReceitasJaFiz(Context context){
+        return DBUtils.getReceitasJaFiz(context);
     }
+/*
     public ArrayList viewReceitasQueroFazer(){
         Cursor queroFazer = ourDB.getReceitasQueroFazer();
         ArrayList<String> quero = new ArrayList<>();
@@ -389,22 +446,31 @@ public class MainActivity extends AppCompatActivity {
 
         queroFazer.close();
         return quero;
+    } */
+
+    //view categoria Quero fazer
+    public ArrayList viewReceitasQueroFazer(Context context){
+        return  DBUtils.getReceitasQueroFazer(context);
     }
 
-
+    /*
     public void categorizarReceita(int catgSelecionada,String recipe, boolean status){
         byte byteStatus = 0;
         if (status){
             byteStatus = 1;
         }
         ourDB.setReceitaCategoria(catgSelecionada, recipe, byteStatus);
+    } */
+
+    public void categorizarReceita(Context context, int catgSelecionada,String recipe, boolean status){
+        byte byteStatus = 0;
+        if (status){
+            byteStatus = 1;
+        }
+        DBUtils.setReceitaCategoria(context, catgSelecionada, recipe, byteStatus);
     }
-    public ArrayList<String> getCategoriasReceitas(){
-        return ourDB.getCategorias();
-    }
 
-
-
+/*
     private ArrayList getCategoriasPorReceita(String receitaSelecionada){
         Cursor categorias = ourDB.receitaCategorias(receitaSelecionada);
         ArrayList<String> receitaCategorias = new ArrayList<>();
@@ -424,8 +490,12 @@ public class MainActivity extends AppCompatActivity {
 
         categorias.close();
         return receitaCategorias;
-    }
+    }*/
 
+    private ArrayList getCategoriasPorReceita(Context context, String receitaSelecionada){
+        return  DBUtils.receitaCategorias(context, receitaSelecionada);
+    }
+/*
     public Recipe getCategoriesByRecipe(Recipe recipe){
         ArrayList categories = getCategoriasPorReceita(recipe.getName());
 
@@ -437,7 +507,23 @@ public class MainActivity extends AppCompatActivity {
             recipe.setIsFavorite(true);
         }
         return recipe;
+    } */
+
+    public Recipe getCategoriesByRecipe(Context context, Recipe recipe){
+        ArrayList categories = getCategoriasPorReceita(context, recipe.getName());
+
+        if (categories.contains("Quero fazer")){
+            recipe.setIsWannaDo(true);
+        } if (categories.contains("Já fiz")){
+            recipe.setIsDone(true);
+        } if (categories.contains("Favorita")){
+            recipe.setIsFavorite(true);
+        }
+        return recipe;
     }
+
+
+
     public ArrayList<String[]> getResultRecipeList(){
 
         if(typeSearch.equals(SEARCH_COMPATIBILIDADE)){
@@ -480,14 +566,14 @@ public class MainActivity extends AppCompatActivity {
     public void onFavoritesPressed(View view){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
                 listRecipeCategoryFragment, ViewRecipeFragment.TAG).addToBackStack(ListRecipeCategoryFragment.TAG).commit();
-        listCategory = viewReceitasFavoritas();
+        listCategory = viewReceitasFavoritas(this);
         category = R.string.favorite;
     }
 
     public void onWannaDoPressed(View view){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
                 listRecipeCategoryFragment, ViewRecipeFragment.TAG).addToBackStack(ListRecipeCategoryFragment.TAG).commit();
-        listCategory = viewReceitasQueroFazer();
+        listCategory = viewReceitasQueroFazer(this);
         category = R.string.wannaDo;
 
     }
@@ -495,7 +581,7 @@ public class MainActivity extends AppCompatActivity {
     public void onDonePressed(View view){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout,
                 listRecipeCategoryFragment, ViewRecipeFragment.TAG).addToBackStack(ListRecipeCategoryFragment.TAG).commit();
-        listCategory = viewReceitasJaFiz();
+        listCategory = viewReceitasJaFiz(this);
         category = R.string.done;
 
     }

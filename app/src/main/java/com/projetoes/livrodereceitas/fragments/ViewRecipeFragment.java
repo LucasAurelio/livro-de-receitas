@@ -58,7 +58,7 @@ public class ViewRecipeFragment extends Fragment {
         final ArrayList myRecipe = ((MainActivity) getActivity()).getViewRecipe();
 
         recipe = new Recipe((String) myRecipe.get(0));
-        recipe = ((MainActivity) getActivity()).getCategoriesByRecipe(recipe);
+        recipe = ((MainActivity) getActivity()).getCategoriesByRecipe(getContext(),recipe);
         recipe.setDescription((String) myRecipe.get(2));
         recipe.setIngredients((ArrayList) myRecipe.get(1));
 
@@ -107,7 +107,7 @@ public class ViewRecipeFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     // Only to check before change
-                    Recipe categories = ((MainActivity) getActivity()).getCategoriesByRecipe(recipe);
+                    Recipe categories = ((MainActivity) getActivity()).getCategoriesByRecipe(getContext(),recipe);
                     Log.d(TAG, categories.toString());
                     //
                     boolean status = false;
@@ -140,12 +140,12 @@ public class ViewRecipeFragment extends Fragment {
 
                     setImgBtn(finalBtn, status, colorTrue,colorFalse);
 
-                    ((MainActivity) getActivity()).categorizarReceita(stringId, recipe.getName(), status);
+                    ((MainActivity) getActivity()).categorizarReceita(getContext(),stringId, recipe.getName(), status);
 
 
 
                     //only to check change
-                    categories = ((MainActivity) getActivity()).getCategoriesByRecipe(recipe);
+                    categories = ((MainActivity) getActivity()).getCategoriesByRecipe(getContext(), recipe);
                     Log.d(TAG, categories.toString());
 
                 }

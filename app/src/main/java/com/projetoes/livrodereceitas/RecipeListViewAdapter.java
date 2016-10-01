@@ -59,7 +59,7 @@ public class RecipeListViewAdapter extends  ArrayAdapter  {
         recipeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) activity).viewReceitaSelecionada(currItem);
+                ((MainActivity) activity).viewReceitaSelecionada(getContext(),currItem);
                 ((MainActivity) activity).onRecipePressed(view);
             }
         });

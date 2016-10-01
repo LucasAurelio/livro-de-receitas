@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Recipe {
 
     private String name;
-    private ArrayList<String> ingredients;
+    private ArrayList<String[]> ingredients;
     private String description;
     private boolean isFavorite;
     private boolean isDone;
@@ -30,7 +30,7 @@ public class Recipe {
         this.isWannaDo = isWannaDo;
     }
 
-    public Recipe(String name, ArrayList<String> ingredients, String description, boolean isFavorite,
+    public Recipe(String name, ArrayList<String[]> ingredients, String description, boolean isFavorite,
                        boolean isDone, boolean isWannaDo){
         this.name = name;
         this.ingredients = ingredients;
@@ -48,11 +48,11 @@ public class Recipe {
         this.name = name;
     }
 
-    public ArrayList<String> getIngredients() {
+    public ArrayList<String[]> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(ArrayList<String> ingredients) {
+    public void setIngredients(ArrayList<String[]> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -86,6 +86,13 @@ public class Recipe {
 
     public void setIsWannaDo(boolean isWannaDo) {
         this.isWannaDo = isWannaDo;
+    }
+
+    public void addIngredient(String[] ingredient){
+        if (ingredients == null){
+            ingredients = new ArrayList<>();
+        }
+        ingredients.add(ingredient);
     }
 
     @Override

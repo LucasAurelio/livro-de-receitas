@@ -5,10 +5,10 @@ public class RecipeSearch {
 
     private int ingredients;
     private int searchIngradients;
-    private String name;
+    private Recipe recipe;
 
-    public RecipeSearch(String name, int ingredients, int searchIngradients){
-        this.name = name;
+    public RecipeSearch(Recipe recipe, int ingredients, int searchIngradients){
+        this.recipe = recipe;
         this.ingredients = ingredients;
         this.searchIngradients = searchIngradients;
 
@@ -22,12 +22,12 @@ public class RecipeSearch {
         return searchIngradients;
     }
 
-    public String getName() {
-        return name;
+    public Recipe getRecipe() {
+        return recipe;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 
     public void setIngredients(int ingredients){
@@ -36,6 +36,10 @@ public class RecipeSearch {
 
     public void setSearchIngradients(int searchIngradients) {
         this.searchIngradients = searchIngradients;
+    }
+
+    public String ingredientsToString(){
+        return String.valueOf(ingredients) + "/" + String.valueOf(searchIngradients);
     }
 
 }

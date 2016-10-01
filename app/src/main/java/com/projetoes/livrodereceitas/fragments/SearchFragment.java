@@ -79,7 +79,7 @@ public class SearchFragment extends Fragment {
 
 
         // Ingredientes disponíveis
-        List ingredientList = ((MainActivity)getActivity()).populateCompleteText();
+        List ingredientList = ((MainActivity)getActivity()).populateCompleteText(getContext());
 
         final Object[] itemSelected = new Object[1];
         //Creating the instance of ArrayAdapter containing list of language names
@@ -128,8 +128,8 @@ public class SearchFragment extends Fragment {
         });
 
         // Filtros disponíveis
-        final List filterList = ((MainActivity)getActivity()).populateFilterList();
-        final List selectedFilterList = ((MainActivity)getActivity()).populateFilterList();
+        final List filterList = ((MainActivity)getActivity()).populateFilterList(getContext());
+        final List selectedFilterList = ((MainActivity)getActivity()).populateFilterList(getContext());
 
         final ListView checkboxListView = (ListView) view.findViewById(R.id.filter_list);
         checkboxListView.setAdapter(new CheckboxListViewAdapter(getActivity(),filterList, selectedFilterList));
@@ -144,8 +144,8 @@ public class SearchFragment extends Fragment {
 
                 }
                 else {
-                    ((MainActivity) getActivity()).viewReceitasCompativeis(myItems, (ArrayList<String>) selectedFilterList);
-                    ((MainActivity) getActivity()).viewReceitasSimilares(myItems, (ArrayList<String>) selectedFilterList);
+                    ((MainActivity) getActivity()).viewReceitasCompativeis(getContext(),myItems, (ArrayList<String>) selectedFilterList);
+                    ((MainActivity) getActivity()).viewReceitasSimilares(getContext(),myItems, (ArrayList<String>) selectedFilterList);
 
                     ((MainActivity) getActivity()).onSearchButtonPressed(getView());
                 }
