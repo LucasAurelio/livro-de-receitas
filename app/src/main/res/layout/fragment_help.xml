@@ -76,12 +76,27 @@
                 />
         </LinearLayout>
 
+        <TextView
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/help_nIngredientes"
+            style="@style/TextAppearance.AppCompat.Medium"
+            />
 
         <TextView
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/help_visualizar"
+            style="@style/TextAppearance.AppCompat.Medium"
+            />
+
+        <TextView
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/help_categorias"
             style="@style/TextAppearance.AppCompat.Medium"
             />
 

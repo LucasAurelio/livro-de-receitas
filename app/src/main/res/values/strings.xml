@@ -47,11 +47,16 @@
         ingredientes selecionados no momento da busca, podendo ter ou não outros além.</string>
     <string name="help_similar">Receitas similares - requerem um ou mais ingredientes
         selecionados no momento da busca, mas não todos.</string>
-    <string name="help_visualizar">✪ Uma vez realizada a pesquisa, basta selecionar uma das
-        receitas para visualizar mais detalhes sobre ingredientes, quantidades e modo de preparo.
-        Ao abrir uma receita, além de visualizá-la, você pode salvá-la em sua coleção de receitas.
-    Para salvar em alguma das categorias basta clicar nos ícones que se encontram no topo
-    da tela de cada receita. Eles tem os seguintes significados:</string>
+    <string name="help_nIngredientes">✪ Uma vez que o tipo de busca é escolhido, a lista de receitas
+        é exibida. Junto a cada receita há também um valor, baseado nos ingredientes selecionados,
+        informando a quantidade de ingredientes que você possui quando comparada com a quantidade
+    total de ingredientes da receita.</string>
+    <string name="help_visualizar">✪ Basta selecionar uma das receitas para visualizar mais detalhes
+        sobre ingredientes, quantidades e modo de preparo.</string>
+    <string name="help_categorias">✪ Ao abrir uma receita, além de visualizá-la,
+        você pode salvá-la em sua coleção de receitas. Para salvar em alguma das categorias basta
+        clicar nos ícones que se encontram no topo da tela de cada receita. Eles tem os seguintes
+        significados:</string>
     <string name="help_favorita">Favoritas - Receitas que você mais gosta ou quer acessar
         rapidamente sem precisar pesquisar.</string>
     <string name="help_quero_fazer">Quero fazer - Receitas que você quer marcar porque deseja preparar
