@@ -51,7 +51,7 @@ public class ListRecipesFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_list_recipes, container, false);
 
-        final ArrayList<String> recipeList = ((MainActivity) getActivity()).getResultRecipeList();
+        final ArrayList<String[]> recipeList = ((MainActivity) getActivity()).getResultRecipeList();
 
         final ListView recipesListView = (ListView) view.findViewById(R.id.recipes_result);
 

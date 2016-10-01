@@ -1,7 +1,9 @@
 package com.projetoes.livrodereceitas.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,7 @@ import android.widget.TextView;
 
 import com.projetoes.livrodereceitas.MainActivity;
 import com.projetoes.livrodereceitas.R;
-import com.projetoes.livrodereceitas.RecipeListViewAdapter;
+import com.projetoes.livrodereceitas.RecipeListCategoryViewAdapter;
 
 import java.util.ArrayList;
 
@@ -68,7 +70,7 @@ public class ListRecipeCategoryFragment extends Fragment {
             result.setText("Receitas:");
         }
 
-        recipesListView.setAdapter(new RecipeListViewAdapter(getActivity(), recipeList));
+        recipesListView.setAdapter(new RecipeListCategoryViewAdapter(getActivity(), recipeList));
         MainActivity.ListUtils.setDynamicHeight(recipesListView);
 
         return view;

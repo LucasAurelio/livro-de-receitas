@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private ListRecipeCategoryFragment listRecipeCategoryFragment;
     private TypeSearchFragment typeSearchFragment;
 
-    private ArrayList<String> resultRecipeList;
-    private ArrayList<String> resultRecipeListSimilar;
+    private ArrayList<String[]> resultRecipeList;
+    private ArrayList<String[]> resultRecipeListSimilar;
     private ArrayList viewRecipe;
 
     public static final String TAG = "MAIN_ACTIVITY";
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
         mBottomBar.setDefaultTabPosition(0);
         initializeBottomNavigation();
 
-        resultRecipeList = new ArrayList<String>();
-        resultRecipeListSimilar = new ArrayList<String>();
+        resultRecipeList = new ArrayList<String[]>();
+        resultRecipeListSimilar = new ArrayList<String[]>();
         typeSearch = "";
 
         changeFragment(initialFragment, InitialFragment.TAG, true);
@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList viewReceitasCompativeis(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
         Cursor receitasCompativeis = ourDB.getReceitasPorCompatibilidade(listaIngredientes, listaFiltros);
         //excluir linha abaixo
-        ArrayList<String> allReceitasCompativeis = new ArrayList<>();
+        ArrayList<String[]> allReceitasCompativeis = new ArrayList<String[]>();
         //descomentar linha abaixo
         //ArrayList<String[]> allReceitasCompativeis = new ArrayList<>();
 
@@ -264,17 +264,17 @@ public class MainActivity extends AppCompatActivity {
         while(!receitasCompativeis.isAfterLast()){
 
             //descomentar codigo abaixo
-            //String[] receitaEnumber = new String[2];
+            String[] receitaEnumber = new String[2];
                     //nome da receita
-            //receitaEnumber[0] = receitasCompativeis.getString(0);
+            receitaEnumber[0] = receitasCompativeis.getString(0);
                     //quantidade em forma da string 'n/j'
-            //receitaEnumber[1] = listaIngredientes.size()+"/"+receitasCompativeis.getString(1);
+            receitaEnumber[1] = listaIngredientes.size()+"/"+receitasCompativeis.getString(1);
 
             //excluir linha abaixo
-            allReceitasCompativeis.add(receitasCompativeis.getString(0));
+            //allReceitasCompativeis.add(receitasCompativeis.getString(0));
 
             //descomentar linha abaixo
-            //allReceitasCompativeis.add(receitaEnumber);
+            allReceitasCompativeis.add(receitaEnumber);
 
             //manter linha abaixo
             receitasCompativeis.moveToNext();
@@ -288,25 +288,25 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList viewReceitasSimilares(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
         Cursor receitasSimilares = ourDB.getReceitasPorSimilaridade(listaIngredientes, listaFiltros);
         //excluir linha abaixo
-        ArrayList<String> allReceitasSimilares = new ArrayList<>();
+        //ArrayList<String> allReceitasSimilares = new ArrayList<>();
         //descomentar linha abaixo
-        //ArrayList<String[]> allReceitasSimilares = new ArrayList<>();
+        ArrayList<String[]> allReceitasSimilares = new ArrayList<>();
 
         receitasSimilares.moveToFirst();
         while(!receitasSimilares.isAfterLast()){
 
             //descomentar código abaixo
-            //String receitaEnumber = new String[2];
+            String [] receitaEnumber = new String[2];
                     //nome da receita
-            //receitaEnumber[0] = receitasSimilares.getString(0);
+            receitaEnumber[0] = receitasSimilares.getString(0);
                     //quantidade de ingredientes presentes na receita
-            //receitaEnumber[1] = receitasSimilares.getString(listaIngredientes.size()+2) +"/"+ receitasSimilares.getString(1);
+            receitaEnumber[1] = receitasSimilares.getString(listaIngredientes.size()+2) +"/"+ receitasSimilares.getString(1);
 
             //excluir linha abaixo
-            allReceitasSimilares.add(receitasSimilares.getString(0));
+          //  allReceitasSimilares.add(receitasSimilares.getString(0));
 
             //descomentar linha abaixo
-            //allReceitasSimilares.add(receitaEnumber);
+            allReceitasSimilares.add(receitaEnumber);
 
             //manter linha abaixo
             receitasSimilares.moveToNext();
@@ -438,7 +438,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return recipe;
     }
-    public ArrayList<String> getResultRecipeList(){
+    public ArrayList<String[]> getResultRecipeList(){
 
         if(typeSearch.equals(SEARCH_COMPATIBILIDADE)){
             return resultRecipeList;
