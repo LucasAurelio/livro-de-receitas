@@ -180,7 +180,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         for(int i=1;i<listaIngredientes.size();i++){
             allHavings += "+ pp"+(i+1);
         }
-        allHavings = allHavings +") <"+listaIngredientes.size();
+        allHavings = allHavings +")";
 
         Cursor cursor = ourDataBase.rawQuery(
                 "SELECT nome, count(ingr)" + allSelections+allSums+" "+
@@ -190,7 +190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         "AND g._id = f.id_ingrediente " +
                         "AND (p.tipo = " + allFiltros + ")) " +
                         "GROUP BY nome " +
-                        "HAVING "+allHavings+" ",null);
+                        "HAVING "+allHavings+ "<" + listaIngredientes.size() + " AND " + allHavings + ">0",null);
 
         return cursor;
     }
