@@ -304,13 +304,13 @@ public class DBUtils {
 
             if (!(cursor.getCount()==0)){
                 cursor.moveToFirst();
-                if ((cursor.getString(0) == "1")){
+                if ((cursor.getString(0).equals("1"))){
                     receitaCategorias.add("Quero fazer");
                 }
-                if ((cursor.getString(1) == "1")){
+                if ((cursor.getString(1).equals("1"))){
                     receitaCategorias.add("Já fiz");
                 }
-                if ((cursor.getString(2) == "1")){
+                if ((cursor.getString(2).equals("1"))){
                     receitaCategorias.add("Favorita");
                 }
             }
