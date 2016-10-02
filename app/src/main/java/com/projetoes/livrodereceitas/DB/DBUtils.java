@@ -180,7 +180,7 @@ public class DBUtils {
             for(int i=1;i<listaIngredientes.size();i++){
                 allSums += "+ sum(ss"+(i+1)+")";
             }
-            allSums = allSums + ")";
+            allSums = allSums + ") as somatotal";
 
 
             String allCases = "";
@@ -219,7 +219,7 @@ public class DBUtils {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 Recipe recipe = new Recipe(cursor.getString(cursor.getColumnIndex("nome")));
-                RecipeSearch recipeSearch = new RecipeSearch(recipe, listaIngredientes.size()+2, Integer.parseInt(cursor.getString(1)));
+                RecipeSearch recipeSearch = new RecipeSearch(recipe, Integer.parseInt(cursor.getString(listaIngredientes.size()+2)), Integer.parseInt(cursor.getString(1)));
 
                 //String [] receitaEnumber = new String[2];
                 //nome da receita
