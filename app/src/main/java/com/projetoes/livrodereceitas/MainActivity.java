@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
         changeFragment(initialFragment, InitialFragment.TAG, true);
 
+        DBUtils.instancializaBanco(this);
+
         /*
         ourDB = new DatabaseHelper(this);
         try{
@@ -260,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Popular opcoes de busca de ingredientes
     public ArrayList populateCompleteText(Context context){
-        return DBUtils.getAlimentos(context);
+        return DBUtils.getAlimentos();
     }
 
    /*
@@ -277,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Popular opções de filtros
     public ArrayList populateFilterList(Context context) {
-        return DBUtils.getTipos(context);
+        return DBUtils.getTipos();
     }
 
 /*    // View resultados de busca
@@ -317,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
 
     // View resultados de busca por Compatibilidade
     public ArrayList viewReceitasCompativeis(Context context, ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
-        resultRecipeList = DBUtils.getReceitasPorCompatibilidade(context, listaIngredientes, listaFiltros);
+        resultRecipeList = DBUtils.getReceitasPorCompatibilidade(listaIngredientes, listaFiltros);
         return resultRecipeList;
 
     }
@@ -359,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
     // View resultados de busca
     public ArrayList viewReceitasSimilares(Context context, ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros){
 
-        resultRecipeListSimilar = DBUtils.getReceitasPorSimilaridade(context, listaIngredientes, listaFiltros);
+        resultRecipeListSimilar = DBUtils.getReceitasPorSimilaridade(listaIngredientes, listaFiltros);
         return resultRecipeListSimilar;
     }
 
@@ -390,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
     } */
 
     public ArrayList viewReceitaSelecionada(Context context, String nomeSelecionado){
-        viewRecipe = DBUtils.getReceitaSelecionada(context, nomeSelecionado);
+        viewRecipe = DBUtils.getReceitaSelecionada(nomeSelecionado);
         return viewRecipe;
     }
 
@@ -411,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
 
     //view categoria Favoritas
     public ArrayList viewReceitasFavoritas(Context context){
-        return  DBUtils.getReceitasFavoritas(context);
+        return  DBUtils.getReceitasFavoritas();
     }
 
 /*
@@ -431,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
 
     //view categoria Já fiz
     public ArrayList viewReceitasJaFiz(Context context){
-        return DBUtils.getReceitasJaFiz(context);
+        return DBUtils.getReceitasJaFiz();
     }
 /*
     public ArrayList viewReceitasQueroFazer(){
@@ -450,7 +452,7 @@ public class MainActivity extends AppCompatActivity {
 
     //view categoria Quero fazer
     public ArrayList viewReceitasQueroFazer(Context context){
-        return  DBUtils.getReceitasQueroFazer(context);
+        return  DBUtils.getReceitasQueroFazer();
     }
 
     /*
@@ -467,7 +469,7 @@ public class MainActivity extends AppCompatActivity {
         if (status){
             byteStatus = 1;
         }
-        DBUtils.setReceitaCategoria(context, catgSelecionada, recipe, byteStatus);
+        DBUtils.setReceitaCategoria(catgSelecionada, recipe, byteStatus);
     }
 
 /*
@@ -493,7 +495,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     private ArrayList getCategoriasPorReceita(Context context, String receitaSelecionada){
-        return  DBUtils.receitaCategorias(context, receitaSelecionada);
+        return  DBUtils.receitaCategorias(receitaSelecionada);
     }
 /*
     public Recipe getCategoriesByRecipe(Recipe recipe){

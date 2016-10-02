@@ -15,21 +15,26 @@ import java.util.ArrayList;
 
 public class DBUtils {
     public static final String TAG = "DB_Utils";
+    private static DatabaseHelper openHelper;
+    private static SQLiteDatabase db;
 
-
-    public static SQLiteDatabase getReadableDatabase(Context context) {
-        DatabaseHelper openHelper = new DatabaseHelper(context);
-        return openHelper.getReadableDatabase();
+    public static void instancializaBanco(Context cont){
+        openHelper = new DatabaseHelper(cont);
     }
 
-    public static SQLiteDatabase getWritableDatabase(Context context) {
-        DatabaseHelper openHelper = new DatabaseHelper(context);
+    public static SQLiteDatabase getReadableDatabase() {
+        openHelper.openDataBase();
+        return openHelper.getWritableDatabase();
+    }
+
+    public static SQLiteDatabase getWritableDatabase() {
+        openHelper.openDataBase();
         return openHelper.getWritableDatabase();
     }
 
 
-    public static ArrayList getAlimentos(Context context) {
-        SQLiteDatabase db = getReadableDatabase(context);
+    public static ArrayList getAlimentos() {
+        db = getReadableDatabase();
         ArrayList<String> allAlimentos = new ArrayList<>();
 
         db.beginTransaction();
@@ -57,8 +62,8 @@ public class DBUtils {
         return allAlimentos;
     }
 
-    public static ArrayList getTipos(Context context) {
-        SQLiteDatabase db = getReadableDatabase(context);
+    public static ArrayList getTipos() {
+        db = getReadableDatabase();
         ArrayList<String> allCategorias = new ArrayList<>();
 
         db.beginTransaction();
@@ -84,9 +89,9 @@ public class DBUtils {
         return allCategorias;
     }
 
-    public static ArrayList getReceitasPorCompatibilidade(Context context, ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros) {
+    public static ArrayList getReceitasPorCompatibilidade(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros) {
 
-        SQLiteDatabase db = getReadableDatabase(context);
+        db = getReadableDatabase();
 
         ArrayList<String[]> allReceitasCompativeis = new ArrayList<>();
 
@@ -157,9 +162,9 @@ public class DBUtils {
 
 
     //AJUSTAR PARA FICAR IGUAL AO QUE TA NO MASTER
-    public static ArrayList<String[]> getReceitasPorSimilaridade(Context context, ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros) {
+    public static ArrayList<String[]> getReceitasPorSimilaridade(ArrayList<String> listaIngredientes, ArrayList<String> listaFiltros) {
 
-        SQLiteDatabase db = getReadableDatabase(context);
+        db = getReadableDatabase();
 
         ArrayList<String[]> allReceitasSimilares = new ArrayList<>();
 
@@ -240,9 +245,9 @@ public class DBUtils {
 
 
     // QUERY VIEW RECEITA
-    public static ArrayList getReceitaSelecionada(Context context, String nomeDaReceita) {
+    public static ArrayList getReceitaSelecionada(String nomeDaReceita) {
 
-        SQLiteDatabase db = getReadableDatabase(context);
+        db = getReadableDatabase();
 
         ArrayList aReceita = new ArrayList<>();
 
@@ -281,9 +286,9 @@ public class DBUtils {
     }
 
 
-    public static ArrayList receitaCategorias(Context context, String receitaSelecionada) {
+    public static ArrayList receitaCategorias(String receitaSelecionada) {
 
-        SQLiteDatabase db = getReadableDatabase(context);
+        db = getReadableDatabase();
 
         ArrayList receitaCategorias = new ArrayList<>();
 
@@ -322,19 +327,19 @@ public class DBUtils {
 
 
 
-    public static void setReceitaCategoria(Context context, int catgr, String nomeDaReceita, byte status){
+    public static void setReceitaCategoria(int catgr, String nomeDaReceita, byte status){
         if (catgr == (R.string.category_wannaDo)){
-            setReceitaQueroFazer(context, nomeDaReceita, status);
+            setReceitaQueroFazer(nomeDaReceita, status);
         }else if(catgr == (R.string.category_done)){
-            setReceitaJaFiz(context, nomeDaReceita,status);
+            setReceitaJaFiz(nomeDaReceita,status);
         }else if(catgr == (R.string.category_favorite)){
-            setReceitaFavoritas(context, nomeDaReceita, status);
+            setReceitaFavoritas(nomeDaReceita, status);
         }
     }
 
-    public static void setReceitaFavoritas(Context context, String receitaSelecionada, byte status){
+    public static void setReceitaFavoritas(String receitaSelecionada, byte status){
 
-        SQLiteDatabase db = getWritableDatabase(context);
+        db = getWritableDatabase();
 
         db.beginTransaction();
 
@@ -344,14 +349,14 @@ public class DBUtils {
             values.put("nome_receita", receitaSelecionada);
             values.put("favoritas", status);
 
-            if(checkForReceitaInCategorias(context, receitaSelecionada) > 0){
-                db.update("receita_categorias",values,"nome_receita = "+receitaSelecionada,null);
+            if(checkForReceitaInCategorias(receitaSelecionada) > 0){
+                db.update("receita_categorias",values,"nome_receita = '"+receitaSelecionada+"'",null);
             }else{
                 values.put("quero_fazer",0);
                 values.put("ja_fiz",0);
                 db.insert("receita_categorias", null, values);
             }
-            checkForReceitaSemCategoria(context);
+            checkForReceitaSemCategoria();
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -361,10 +366,10 @@ public class DBUtils {
 
     }
 
-    public static void setReceitaQueroFazer(Context context, String receitaSelecionada, byte status){
-        SQLiteDatabase db = getWritableDatabase(context);
+    public static void setReceitaQueroFazer(String receitaSelecionada, byte status){
+        db = getWritableDatabase();
 
-        db.endTransaction();
+        db.beginTransaction();
         try{
             ContentValues values = new ContentValues();
 
@@ -375,13 +380,13 @@ public class DBUtils {
                 values.put("ja_fiz",0);
             }
 
-            if(checkForReceitaInCategorias(context, receitaSelecionada) > 0){
-                db.update("receita_categorias",values,"nome_receita = "+receitaSelecionada,null);
+            if(checkForReceitaInCategorias(receitaSelecionada) > 0){
+                db.update("receita_categorias",values,"nome_receita = '"+receitaSelecionada+"'",null);
             }else{
                 values.put("favoritas",0);
                 db.insert("receita_categorias", null, values);
             }
-            checkForReceitaSemCategoria(context);
+            checkForReceitaSemCategoria();
 
             db.setTransactionSuccessful();
         } finally {
@@ -391,9 +396,9 @@ public class DBUtils {
         db.close();
     }
 
-    public static void setReceitaJaFiz(Context context, String receitaSelecionada, byte status){
+    public static void setReceitaJaFiz(String receitaSelecionada, byte status){
 
-        SQLiteDatabase db = getWritableDatabase(context);
+        db = getWritableDatabase();
 
         db.beginTransaction();
 
@@ -406,13 +411,13 @@ public class DBUtils {
             if(status == 1){
                 values.put("quero_fazer", 0);
             }
-            if(checkForReceitaInCategorias(context, receitaSelecionada) > 0){
-                db.update("receita_categorias", values, "nome_receita = " + receitaSelecionada, null);
+            if(checkForReceitaInCategorias(receitaSelecionada) > 0){
+                db.update("receita_categorias", values, "nome_receita = '" + receitaSelecionada+"'", null);
             }else{
                 values.put("favoritas",0);
                 db.insert("receita_categorias", null, values);
             }
-            checkForReceitaSemCategoria(context);
+            checkForReceitaSemCategoria();
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -422,23 +427,12 @@ public class DBUtils {
 
     }
 
-    public static void checkForReceitaSemCategoria(Context context){
-        SQLiteDatabase db = getWritableDatabase(context);
-        db.beginTransaction();
-        try {
+    private static void checkForReceitaSemCategoria(){
             db.delete("receita_categorias", "quero_fazer = 0 AND ja_fiz = 0 AND favoritas = 0 ", null);
-            db.setTransactionSuccessful();
-        }finally {
-            db.endTransaction();
-        }
-        db.close();
     }
 
-    private static int checkForReceitaInCategorias(Context context, String nomeDaReceita){
-        SQLiteDatabase db = getReadableDatabase(context);
+    private static int checkForReceitaInCategorias(String nomeDaReceita){
         int count = 0;
-        db.beginTransaction();
-        try {
             String query = "SELECT nome_receita " + "FROM receita_categorias " +
                     "WHERE nome_receita = '"+nomeDaReceita+"' ";
 
@@ -446,16 +440,12 @@ public class DBUtils {
             count = cursor.getCount();
 
             cursor.close();
-            db.setTransactionSuccessful();
-        }finally {
-            db.endTransaction();
-        }
-        db.close();
+
         return count;
     }
 
-    public static ArrayList<String> getReceitasFavoritas(Context context) {
-        SQLiteDatabase db = getReadableDatabase(context);
+    public static ArrayList<String> getReceitasFavoritas() {
+        db = getReadableDatabase();
         ArrayList<String> fvrts = new ArrayList<>();
 
         db.beginTransaction();
@@ -483,8 +473,8 @@ public class DBUtils {
     }
 
 
-    public static ArrayList<String> getReceitasJaFiz(Context context) {
-        SQLiteDatabase db = getReadableDatabase(context);
+    public static ArrayList<String> getReceitasJaFiz() {
+        db = getReadableDatabase();
 
         ArrayList<String> fiz = new ArrayList<>();
 
@@ -514,8 +504,8 @@ public class DBUtils {
     }
 
 
-    public static ArrayList<String> getReceitasQueroFazer(Context context){
-        SQLiteDatabase db = getReadableDatabase(context);
+    public static ArrayList<String> getReceitasQueroFazer(){
+        db = getReadableDatabase();
 
         ArrayList<String> quero = new ArrayList<>();
 

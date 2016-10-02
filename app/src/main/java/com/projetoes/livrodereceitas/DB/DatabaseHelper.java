@@ -25,13 +25,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.ourContext = context;
+        createDataBase();
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void createDataBase() {
         
         //check if db exisist
         if (!checkDataBase()) {
+            this.getWritableDatabase();
             try {
                 copyDataBase();
             } catch (IOException e) {
@@ -40,6 +41,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         } else{
             this.getWritableDatabase();
         }
+
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
 
     }
 
@@ -88,7 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             String testPath = DATABASE_PATH + DATABASE_NAME;
             checkDB = SQLiteDatabase.openDatabase(testPath,null,SQLiteDatabase.OPEN_READWRITE);
         }catch(SQLiteException e){
-            throw new Error("DataBase does not exist yet");
+            //throw new Error("DataBase does not exist yet");
         }
 
         if(checkDB != null){
