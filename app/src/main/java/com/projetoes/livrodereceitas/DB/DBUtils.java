@@ -197,7 +197,7 @@ public class DBUtils {
             for(int i=1;i<listaIngredientes.size();i++){
                 allHavings += "+ pp"+(i+1);
             }
-            allHavings = allHavings +") <"+listaIngredientes.size();
+            allHavings = allHavings +")";
 
 
             String query = "SELECT nome, count(ingr)" + allSelections+allSums+" "+
